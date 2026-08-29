@@ -146,8 +146,19 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
     """Run the voice agent for one call session, working for the given tenant."""
     logger.info(f"Starting phone agent for tenant {tenant['id']} — {tenant['name']}")
 
-    # Speech-to-Text service
-    stt = DeepgramFluxSTTService(api_key=require_env("DEEPGRAM_API_KEY"))
+    # Speech-to-Text service — multilingual + biased to the tenant's language.
+    # (The default is flux-general-en: French speech gets misheard as English.)
+    if tenant.get("language") == "fr":
+        stt = DeepgramFluxSTTService(
+            api_key=require_env("DEEPGRAM_API_KEY"),
+            settings=DeepgramFluxSTTService.Settings(
+                model="flux-general-multi",
+                language=Language.FR,
+                language_hints=[Language.FR],
+            ),
+        )
+    else:
+        stt = DeepgramFluxSTTService(api_key=require_env("DEEPGRAM_API_KEY"))
 
     # Text-to-Speech service (TTS_SERVICE: cartesia | deepgram)
     tts = build_tts(tenant)
