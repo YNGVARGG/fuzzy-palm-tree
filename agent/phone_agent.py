@@ -187,12 +187,14 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
     @transport.event_handler("on_client_connected")
     async def on_client_connected(transport, client):
         # Kick off the conversation, in the tenant's language
+        # NOTE: user role (not "developer") — Groq/Qwen rejects a first turn with no
+        # user message ("No user query found in messages").
         greeting = (
-            "Accueille brièvement l'appelant et demande comment tu peux l'aider."
+            "(Démarre la conversation.) Accueille brièvement l'appelant et demande comment tu peux l'aider."
             if tenant.get("language") == "fr"
-            else "Concisely greet the caller and ask how you can help."
+            else "(Start the conversation.) Concisely greet the caller and ask how you can help."
         )
-        context.add_message({"role": "developer", "content": greeting})
+        context.add_message({"role": "user", "content": greeting})
         await worker.queue_frames([LLMRunFrame()])
 
     @transport.event_handler("on_client_disconnected")
