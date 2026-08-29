@@ -29,6 +29,7 @@ from pipecat.processors.aggregators.llm_response_universal import (
 )
 from pipecat.runner.types import RunnerArguments
 from pipecat.runner.utils import create_transport
+from pipecat.serializers.twilio import TwilioFrameSerializer
 from pipecat.services.cartesia.tts import CartesiaTTSService
 from pipecat.services.deepgram.flux.stt import DeepgramFluxSTTService
 from pipecat.services.deepgram.flux.tts import DeepgramFluxTTSService
@@ -49,6 +50,12 @@ load_dotenv(override=True)
 # Voice defaults per TTS service; override either with TTS_VOICE.
 DEFAULT_DEEPGRAM_VOICE = "flux-heather-en"
 DEFAULT_CARTESIA_VOICE = "86e30c1d-714b-4074-a1f2-1cb6b552fb49"
+
+
+def _is_twilio(transport) -> bool:
+    """True when the transport is the Twilio WebSocket (telephony audio is 8kHz)."""
+    serializer = getattr(getattr(transport, "_params", None), "serializer", None)
+    return isinstance(serializer, TwilioFrameSerializer)
 
 
 def require_env(name: str) -> str:
@@ -188,12 +195,15 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
         ]
     )
 
+    # Telephony (Twilio) carries 8kHz audio — pipecat must match sample rates
+    params_kwargs: dict = {"enable_metrics": True, "enable_usage_metrics": True}
+    if _is_twilio(transport):
+        params_kwargs["audio_in_sample_rate"] = 8000
+        params_kwargs["audio_out_sample_rate"] = 8000
+
     worker = PipelineWorker(
         pipeline,
-        params=PipelineParams(
-            enable_metrics=True,
-            enable_usage_metrics=True,
-        ),
+        params=PipelineParams(**params_kwargs),
         # Per-call business memory, shared with the tool handlers
         app_resources=BusinessStore(tenant),
     )
