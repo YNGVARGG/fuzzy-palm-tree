@@ -15,11 +15,45 @@ for a real calendar/CRM later — the tool signatures stay the same.
 import json
 import os
 from datetime import datetime
+from pathlib import Path
 
 from loguru import logger
 from pipecat.adapters.schemas.direct_function import tool_options
 from pipecat.frames.frames import EndWorkerFrame
 from pipecat.services.llm_service import FunctionCallParams
+
+_TENANTS_DIR = Path(__file__).resolve().parent / "tenants"
+
+
+def _embed_texts(texts: list[str]) -> list[list[float]]:
+    """Embed with Mistral (OpenAI-compatible embeddings endpoint)."""
+    from openai import OpenAI
+
+    client = OpenAI(
+        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("EMBED_BASE_URL") or "https://api.mistral.ai/v1",
+    )
+    resp = client.embeddings.create(
+        model=os.getenv("EMBED_MODEL", "mistral-embed"), input=texts
+    )
+    return [d.embedding for d in resp.data]
+
+
+def _cosine(a: list[float], b: list[float]) -> float:
+    dot = sum(x * y for x, y in zip(a, b))
+    na = sum(x * x for x in a) ** 0.5
+    nb = sum(y * y for y in b) ** 0.5
+    return dot / (na * nb) if na and nb else 0.0
+
+
+def _load_index(tenant_id: str) -> dict | None:
+    p = _TENANTS_DIR / tenant_id / "faq_index.json"
+    if not p.is_file():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
 
 
 # Keyword -> FAQ key, for English and French callers.
@@ -136,6 +170,38 @@ async def answer_question(params: FunctionCallParams, question: str):
         await params.result_callback({"found": False, "message": _FALLBACK.get(lang, _FALLBACK["en"])})
 
 
+async def search_documents(params: FunctionCallParams, question: str):
+    """Search the company's documents (price lists, policies, guides) for a precise answer.
+
+    Use this when the question is specific (tarifs, garanties, délais, marques, aides) and not covered by the FAQ.
+
+    Args:
+        question: The caller's question, as they asked it.
+    """
+    store: BusinessStore = params.app_resources
+    tenant_id = store.tenant["id"]
+    index = _load_index(tenant_id)
+    if not index or not index.get("chunks"):
+        logger.info(f"search_documents({question!r}) -> no index for {tenant_id}")
+        await params.result_callback(
+            {"found": False, "message": "Aucun document indexé pour cette entreprise."}
+        )
+        return
+    try:
+        q_emb = _embed_texts([question])[0]
+    except Exception as e:
+        logger.warning(f"Embedding failed: {e}")
+        await params.result_callback({"found": False, "message": "Recherche documentaire indisponible."})
+        return
+    chunks = index["chunks"]
+    scored = sorted(
+        ((_cosine(q_emb, c["embedding"]), c) for c in chunks), reverse=True
+    )[:3]
+    context = "\n\n".join(f"[{c['source']}] {c['chunk']}" for _, c in scored)
+    logger.info(f"search_documents({question!r}) -> {len(scored)} chunks")
+    await params.result_callback({"found": True, "context": context[:4000]})
+
+
 async def book_appointment(
     params: FunctionCallParams,
     customer_name: str,
@@ -209,4 +275,4 @@ async def end_call(params: FunctionCallParams):
     await params.llm.push_frame(EndWorkerFrame())
 
 
-TOOLS = [answer_question, book_appointment, take_message, end_call]
+TOOLS = [answer_question, search_documents, book_appointment, take_message, end_call]

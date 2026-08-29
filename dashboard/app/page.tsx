@@ -440,6 +440,56 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </TabsContent>
+        {/* ---- Documents (RAG) ---- */}
+        <TabsContent value="docs">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Documents de l'entreprise</CardTitle>
+              <CardDescription>L'agent répond aux questions précises (tarifs, garanties, guides) à partir de ces documents — envoyez un .txt ou .md, il est indexé automatiquement</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <Input type="file" accept=".txt,.md" multiple className="max-w-sm" onChange={(e) => uploadDocs(e.target.files)} disabled={uploading} />
+                <Button onClick={() => { const i = document.querySelector<HTMLInputElement>("input[type=file]"); i && uploadDocs(i.files) }} disabled={uploading}>
+                  {uploading ? "Indexation…" : "Envoyer et indexer"}
+                </Button>
+              </div>
+              {docMsg ? <p className="text-sm text-emerald-600 dark:text-emerald-400">{docMsg}</p> : null}
+              {docs === null ? (
+                <Skeleton className="h-20 w-full" />
+              ) : (
+                <>
+                  <p className="text-sm text-muted-foreground">
+                    {docs.files.length} document(s) — {docs.index.chunks} passage(s) indexé(s)
+                  </p>
+                  {docs.files.length > 0 ? (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Fichier</TableHead>
+                          <TableHead className="text-right">Taille</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {docs.files.map((f) => (
+                          <TableRow key={f.name}>
+                            <TableCell className="font-mono text-xs">{f.name}</TableCell>
+                            <TableCell className="text-right text-xs text-muted-foreground">{(f.size / 1024).toFixed(1)} Ko</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  ) : (
+                    <EmptyState>
+                      <p className="font-medium text-foreground">Aucun document</p>
+                      <p>Ajoutez par exemple un guide tarifaire ou une politique — l'agent y répondra au téléphone.</p>
+                    </EmptyState>
+                  )}
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
 
       <footer className="text-center text-xs text-muted-foreground">
