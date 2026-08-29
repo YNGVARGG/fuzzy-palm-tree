@@ -63,8 +63,7 @@ export function Features() {
         <div className="grid gap-4 md:grid-cols-6">
           {features.map((f, i) => {
             const Icon = f.icon
-            const span =
-              i === 0 ? "md:col-span-4" : i === 1 ? "md:col-span-2" : "md:col-span-2"
+            const span = i === 0 ? "md:col-span-4" : "md:col-span-2"
             return (
               <article
                 key={f.title}

@@ -11,11 +11,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install dependencies
-        run: cd agent && uv pip install --system "pipecat-ai[openai,deepgram,cartesia,websocket,webrtc,silero,runner]>=1.8.1" "python-dotenv>=1.0"
+        run: cd agent && uv venv --python 3.12 .venv-ci && uv pip install --python .venv-ci/bin/python "pipecat-ai[openai,deepgram,cartesia,websocket,webrtc,silero,runner]>=1.8.1" "python-dotenv>=1.0"
       - name: Syntax check
-        run: cd agent && python -m py_compile phone_agent.py business_tools.py business_context.py tenant.py call_recorder.py index_docs.py calendar_service.py
+        run: cd agent && .venv-ci/bin/python -m py_compile phone_agent.py business_tools.py business_context.py tenant.py call_recorder.py index_docs.py calendar_service.py
       - name: Smoke test (tenant + prompts)
-        run: cd agent && python smoke_test.py
+        run: cd agent && .venv-ci/bin/python smoke_test.py
 
   dashboard:
     runs-on: ubuntu-latest
