@@ -1,0 +1,19 @@
+
+> dashboard@0.0.1 dev C:\Users\yonat\Documents\Project\dashboard
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.20.10.2:3000
+✓ Ready in 966ms
+
+ GET / 200 in 1038ms (next.js: 342ms, application-code: 696ms)
+ GET /api/tenants 200 in 116ms (next.js: 80ms, application-code: 36ms)
+ GET / 200 in 49ms (next.js: 6ms, application-code: 44ms)
+ GET /api/tenants/french-demo/activity 200 in 751ms (next.js: 741ms, application-code: 10ms)
+ GET / 200 in 56ms (next.js: 10ms, application-code: 46ms)
+ GET /api/tenants 200 in 12ms (next.js: 4ms, application-code: 7ms)
+ GET / 200 in 42ms (next.js: 5ms, application-code: 37ms)
+ GET /api/tenants 200 in 11ms (next.js: 3ms, application-code: 7ms)
+ GET / 200 in 39ms (next.js: 6ms, application-code: 33ms)
+ GET /api/tenants 200 in 14ms (next.js: 4ms, application-code: 10ms)

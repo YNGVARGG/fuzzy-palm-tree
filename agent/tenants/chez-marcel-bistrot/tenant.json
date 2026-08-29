@@ -1,0 +1,24 @@
+{
+  "id": "chez-marcel-bistrot",
+  "name": "Chez Marcel — Bistrot",
+  "tagline": "bistrot familial au cœur de Lyon",
+  "language": "fr",
+  "greeting_name": "Camille",
+  "phone_numbers": [],
+  "services": [
+    "réservation de table",
+    "commande à emporter",
+    "événements privés",
+    "traiteur"
+  ],
+  "hours": "du mardi au samedi de 12h à 14h30 et de 19h à 22h30, le dimanche de 12h à 14h30",
+  "after_hours_note": "Si l'appel a lieu en dehors des heures d'ouverture, propose de prendre rendez-vous le jour ouvrable suivant ou de laisser un message pour être rappelé.",
+  "booking_slots": "Les rendez-vous durent 60 minutes.",
+  "callback_promise": "L'équipe rappelle dans un délai d'un jour ouvrable.",
+  "faq": {
+    "reservation_terrasse": "La terrasse est réservable pour les groupes jusqu'à 8 personnes, sous réserve de météo.",
+    "menu_du_jour": "Le menu du jour est affiché sur notre page et annoncé chaque matin sur les réseaux — il change tous les jours.",
+    "allergenes": "Tous nos plats peuvent être adaptés aux allergies : signalez-les à la réservation.",
+    "paiement": "Nous acceptons la carte, le sans contact et les chèques repas."
+  }
+}

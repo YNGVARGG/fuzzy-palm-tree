@@ -1,0 +1,15 @@
+
+╭─────────────────────────────────────────────────────╮
+│ ᓚᘏᗢ PIPECAT DEVELOPMENT RUNNER                      │
+│                                                     │
+│ Learn about running bots locally and in production: │
+│ https://docs.pipecat.ai/pipecat/deployment/overview │
+╰─────────────────────────────────────────────────────╯
+
+🚀 Bot ready! (WebRTC)
+   → Open: http://localhost:7860
+
+Looking for dist directory at: C:\Users\yonat\Documents\Project\agent\.venv\Lib\site-packages\pipecat_ai_prebuilt\client\dist
+INFO:     127.0.0.1:60913 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60914 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     ::1:52180 - "GET / HTTP/1.1" 307 Temporary Redirect
