@@ -46,6 +46,12 @@ def http_get(url: str, timeout: float = 4.0):
 
 
 def main() -> int:
+    # Snapshot the log BEFORE anything runs — tool handlers write to it during Phase 2
+    log_before = b""
+    if os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "rb") as f:
+            log_before = f.read()
+
     tenant = load_tenant("french-demo")
     print(f"== Phase 1: servers ({tenant['name']})", flush=True)
 
@@ -210,10 +216,6 @@ def main() -> int:
             "tenant": "french-demo",
             **store.appointments[0],
         }
-        before = b""
-        if os.path.exists(LOG_FILE):
-            with open(LOG_FILE, "rb") as f:
-                before = f.read()
         with open(LOG_FILE, "a", encoding="utf-8") as f:
             f.write(json.dumps(event, ensure_ascii=False) + "\n")
         try:
@@ -222,9 +224,9 @@ def main() -> int:
             visible = any(b.get("reference") == str(event["reference"]) for b in data.get("bookings", []))
             check("dashboard API shows the booking", status == 200 and visible, f"HTTP {status}")
         finally:
-            if before:
+            if log_before:
                 with open(LOG_FILE, "wb") as f:
-                    f.write(before)
+                    f.write(log_before)
             elif os.path.exists(LOG_FILE):
                 os.remove(LOG_FILE)
 
