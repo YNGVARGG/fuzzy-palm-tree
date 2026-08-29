@@ -1,0 +1,9 @@
+# Upgrade path: stable wss:// URL with your own domain (no ngrok).
+# 1. Point an A record for agent.example.com at your VPS.
+# 2. Open ports 80/443 in the firewall:  sudo ufw allow 80/tcp && sudo ufw allow 443/tcp
+# 3. docker compose --profile domain up -d
+# 4. TwiML Bin:  wss://agent.example.com/ws
+# Caddy auto-provisions the TLS certificate.
+agent.example.com {
+    reverse_proxy agent:7860
+}

@@ -1,0 +1,28 @@
+{
+  "id": "french-demo",
+  "name": "Dupont Chauffage & Plomberie",
+  "tagline": "entreprise familiale de plomberie et de chauffage",
+  "language": "fr",
+  "greeting_name": "Alex",
+  "phone_numbers": [],
+  "services": [
+    "dépannage de plomberie en urgence",
+    "installation et entretien de chaudières",
+    "travaux de salle de bain et de cuisine",
+    "détection et réparation de fuites"
+  ],
+  "hours": "du lundi au vendredi de 8h à 18h, le samedi de 9h à 13h",
+  "after_hours_note": "Si l'appel a lieu en dehors des heures d'ouverture, propose de prendre rendez-vous le jour ouvrable suivant ou de laisser un message pour être rappelé.",
+  "booking_slots": "Les rendez-vous durent 60 minutes.",
+  "callback_promise": "L'équipe rappelle dans un délai d'un jour ouvrable.",
+  "faq": {
+    "horaires": "Nous sommes ouverts du lundi au vendredi de 8h à 18h et le samedi de 9h à 13h.",
+    "urgence": "Pour une urgence, nous pouvons généralement envoyer quelqu'un aujourd'hui. Souhaitez-vous réserver une visite en urgence ?",
+    "devis": "Les devis sont gratuits. Un prix forfaitaire est convenu avant le début des travaux.",
+    "zone_intervention": "Nous intervenons dans toute la métropole, dans un rayon d'environ 30 minutes de route.",
+    "paiement": "Nous acceptons la carte bancaire, le virement et les espèces. Le paiement est dû à la fin des travaux sauf mention contraire sur le devis.",
+    "garantie": "Tous nos travaux sont garantis 12 mois.",
+    "chaudiere": "L'entretien d'une chaudière prend environ 45 minutes et nous recommandons de le faire une fois par an.",
+    "rappel": "Si l'équipe est occupée, nous pouvons prendre un message et quelqu'un rappellera sous un jour ouvrable."
+  }
+}

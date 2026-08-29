@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Secrets — never commit
+.env
+*.env
+!*.env.example
+
+# Runtime data
+call-activity.jsonl
+agent/call-activity.jsonl
+
+# Harness-internal (never commit)
+.dsh/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

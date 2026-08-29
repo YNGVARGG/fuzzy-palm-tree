@@ -1,0 +1,17 @@
+[project]
+name = "company-phone-agent"
+version = "0.1.0"
+description = "The company's AI phone agent: Pipecat + PhoneLLM Alpha 1"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pipecat-ai[openai,deepgram,cartesia,websocket,daily,webrtc,silero,runner]>=1.8.1",
+    "python-dotenv>=1.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]

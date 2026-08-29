@@ -1,0 +1,45 @@
+# Company Phone Agent — VPS deployment (CPU-only VPS; the AI brain runs on Modal / OpenAI API)
+# Usage:  bash deploy/bootstrap.sh   (installs Docker, then builds & starts everything)
+
+services:
+  agent:
+    build:
+      context: ../agent
+    env_file: ../agent/.env
+    environment:
+      - BUSINESS_LOG_FILE=/data/call-activity.jsonl
+    ports:
+      - "127.0.0.1:7860:7860"   # localhost only: debugging; ngrok reaches the service by name
+    restart: unless-stopped
+    volumes:
+      - call_logs:/data
+
+  # Free wss:// tunnel for Twilio (see deploy/README.md for the URL)
+  ngrok:
+    image: ngrok/ngrok:latest
+    command: http agent:7860
+    env_file: ../agent/.env      # provides NGROK_AUTHTOKEN
+    depends_on:
+      - agent
+    restart: unless-stopped
+
+  # Optional upgrade path: stable URL with your own domain + automatic HTTPS
+  # Enable with:  docker compose --profile domain up -d
+  caddy:
+    image: caddy:2
+    profiles: ["domain"]
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - agent
+    restart: unless-stopped
+
+volumes:
+  call_logs:
+  caddy_data:
+  caddy_config:
