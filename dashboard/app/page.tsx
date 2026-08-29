@@ -59,12 +59,16 @@ export default function Dashboard() {
 
   const refresh = useCallback(async (id: string) => {
     if (!id) return
-    const [act, st] = await Promise.all([
+    const [act, st, callsData, docsData] = await Promise.all([
       fetch("/api/tenants/" + id + "/activity").then((r) => r.json()).catch(() => null),
       fetch("/api/tenants/" + id + "/status").then((r) => r.json()).catch(() => null),
+      fetch("/api/tenants/" + id + "/calls").then((r) => r.json()).catch(() => null),
+      fetch("/api/tenants/" + id + "/documents").then((r) => r.json()).catch(() => null),
     ])
     if (act) setActivity(act)
     if (st) setAgentUp(Boolean(st.up))
+    if (callsData) setCalls(callsData.calls ?? [])
+    if (docsData && docsData.files) setDocs(docsData)
   }, [])
 
   useEffect(() => {
@@ -99,6 +103,15 @@ export default function Dashboard() {
     after_hours_note: "", booking_slots: "", callback_promise: "", services: "", faq: "",
   })
   const [savedMsg, setSavedMsg] = useState("")
+  const [calls, setCalls] = useState<{ id: string; summary: string; message_count: number; has_audio: boolean }[] | null>(null)
+  const [expandedCall, setExpandedCall] = useState<string | null>(null)
+  const [callTranscripts, setCallTranscripts] = useState<Record<string, unknown[]>>({})
+  const [docs, setDocs] = useState<{ files: { name: string; size: number }[]; index: { chunks: number } } | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [docMsg, setDocMsg] = useState("")
+  const [showWizard, setShowWizard] = useState(false)
+  const [wizard, setWizard] = useState({ name: "", tagline: "", hours: "", services: "", language: "fr" })
+  const [wizardMsg, setWizardMsg] = useState("")
 
   useEffect(() => {
     if (!tenant) return
@@ -118,6 +131,59 @@ export default function Dashboard() {
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }))
+
+  const createTenant = async () => {
+    if (!wizard.name.trim()) return
+    setWizardMsg("")
+    try {
+      const r = await fetch("/api/tenants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: wizard.name.trim(),
+          tagline: wizard.tagline.trim(),
+          hours: wizard.hours.trim(),
+          services: wizard.services.split("\n").map((s) => s.trim()).filter(Boolean),
+          language: wizard.language,
+        }),
+      })
+      const d = await r.json()
+      if (r.ok && d.id) {
+        setWizardMsg("Entreprise créée : " + d.name)
+        setWizard({ name: "", tagline: "", hours: "", services: "", language: "fr" })
+        setShowWizard(false)
+        const t = await fetch("/api/tenants").then((x) => x.json())
+        if (t.tenants) { setTenants(t.tenants); setTenantId(d.id) }
+      } else {
+        setWizardMsg("Erreur : " + (d.error ?? "inconnue"))
+      }
+    } catch {
+      setWizardMsg("Erreur réseau.")
+    }
+  }
+
+  const uploadDocs = async (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    setUploading(true)
+    setDocMsg("")
+    try {
+      const form = new FormData()
+      for (const f of Array.from(files)) form.append("files", f)
+      const r = await fetch("/api/tenants/" + tenantId + "/documents", { method: "POST", body: form })
+      const d = await r.json()
+      setDocMsg(
+        d.indexed && d.indexed >= 0
+          ? "Documents envoyés et indexés (" + d.indexed + " passages)."
+          : "Documents envoyés mais indexation en échec — vérifiez la clé Mistral."
+      )
+      const r2 = await fetch("/api/tenants/" + tenantId + "/documents")
+      const d2 = await r2.json()
+      if (d2.files) setDocs(d2)
+    } catch {
+      setDocMsg("Erreur lors de l'envoi.")
+    }
+    setUploading(false)
+  }
 
   const save = async () => {
     const faq: Record<string, string> = {}
@@ -192,7 +258,7 @@ export default function Dashboard() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Label htmlFor="tenant" className="text-muted-foreground">Entreprise</Label>
-          <Select value={tenantId} onValueChange={setTenantId}>
+          <Select value={tenantId} onValueChange={(v) => setTenantId(v ?? "")}>
             <SelectTrigger id="tenant" className="w-64">
               <SelectValue />
             </SelectTrigger>
@@ -206,10 +272,54 @@ export default function Dashboard() {
             <Badge variant="outline">{tenant.language === "fr" ? "Français" : "English"}</Badge>
           ) : null}
         </div>
-        <Button variant="outline" size="sm" onClick={() => refresh(tenantId)}>
-          <RiRefreshLine className="size-4" /> Actualiser
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => setShowWizard((v) => !v)}>Nouvelle entreprise</Button>
+          <Button variant="outline" size="sm" onClick={() => refresh(tenantId)}>
+            <RiRefreshLine className="size-4" /> Actualiser
+          </Button>
+        </div>
       </div>
+
+      {showWizard ? (
+        <Card className="mt-2">
+          <CardHeader>
+            <CardTitle className="text-base">Nouvelle entreprise</CardTitle>
+            <CardDescription>Créez l'entreprise en 1 minute — l'agent sera prêt pour le prochain appel</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-2">
+                <Label>Nom</Label>
+                <Input value={wizard.name} onChange={(e) => setWizard((w) => ({ ...w, name: e.target.value }))} placeholder="Ex : Chez Marcel — Bistrot" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label>Slogan</Label>
+                <Input value={wizard.tagline} onChange={(e) => setWizard((w) => ({ ...w, tagline: e.target.value }))} placeholder="Ex : bistrot familial au cœur de Lyon" />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Horaires</Label>
+              <Input value={wizard.hours} onChange={(e) => setWizard((w) => ({ ...w, hours: e.target.value }))} placeholder="Ex : du mardi au samedi de 12h à 22h30" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Services (un par ligne)</Label>
+              <Textarea rows={3} value={wizard.services} onChange={(e) => setWizard((w) => ({ ...w, services: e.target.value }))} />
+            </div>
+            <div className="flex items-center gap-4">
+              <Label>Langue</Label>
+              <Select value={wizard.language} onValueChange={(v) => setWizard((w) => ({ ...w, language: v ?? "fr" }))}>
+                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="fr">Français</SelectItem>
+                  <SelectItem value="en">English</SelectItem>
+                </SelectContent>
+              </Select>
+              <Button onClick={createTenant}>Créer</Button>
+              {wizardMsg ? <p className="text-sm text-muted-foreground">{wizardMsg}</p> : null}
+            </div>
+          </CardContent>
+        </Card>
+      ) : null}
 
       {/* Stats */}
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
@@ -397,7 +507,7 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="f-lang">Langue</Label>
-                  <Select value={form.language} onValueChange={(v) => setForm((f) => ({ ...f, language: v }))}>
+                  <Select value={form.language} onValueChange={(v) => setForm((f) => ({ ...f, language: v ?? "fr" }))}>
                     <SelectTrigger id="f-lang"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="fr">Français</SelectItem>
