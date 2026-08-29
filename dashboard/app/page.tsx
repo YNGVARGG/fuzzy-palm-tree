@@ -198,13 +198,13 @@ export default function Dashboard() {
             </SelectTrigger>
             <SelectContent>
               {tenants.map((t) => (
-                <SelectItem key={t.id} value={t.id}>
-                  {t.name}
-                  <span className="ml-2 text-xs text-muted-foreground">{t.language === "fr" ? "FR" : "EN"}</span>
-                </SelectItem>
+                <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
+          {tenant ? (
+            <Badge variant="outline">{tenant.language === "fr" ? "Français" : "English"}</Badge>
+          ) : null}
         </div>
         <Button variant="outline" size="sm" onClick={() => refresh(tenantId)}>
           <RiRefreshLine className="size-4" /> Actualiser

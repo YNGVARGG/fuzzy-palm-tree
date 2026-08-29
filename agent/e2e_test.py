@@ -210,9 +210,9 @@ def main() -> int:
             "tenant": "french-demo",
             **store.appointments[0],
         }
-        before = ""
+        before = b""
         if os.path.exists(LOG_FILE):
-            with open(LOG_FILE, "r", encoding="utf-8") as f:
+            with open(LOG_FILE, "rb") as f:
                 before = f.read()
         with open(LOG_FILE, "a", encoding="utf-8") as f:
             f.write(json.dumps(event, ensure_ascii=False) + "\n")
@@ -223,7 +223,7 @@ def main() -> int:
             check("dashboard API shows the booking", status == 200 and visible, f"HTTP {status}")
         finally:
             if before:
-                with open(LOG_FILE, "w", encoding="utf-8") as f:
+                with open(LOG_FILE, "wb") as f:
                     f.write(before)
             elif os.path.exists(LOG_FILE):
                 os.remove(LOG_FILE)
