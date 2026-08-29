@@ -34,6 +34,7 @@ from pipecat.services.deepgram.flux.stt import DeepgramFluxSTTService
 from pipecat.services.deepgram.flux.tts import DeepgramFluxTTSService
 from pipecat.services.openai.llm import OpenAILLMService
 from pipecat.services.tts_service import TextAggregationMode
+from pipecat.transcriptions.language import Language
 from pipecat.transports.base_transport import BaseTransport, TransportParams
 from pipecat.transports.websocket.fastapi import FastAPIWebsocketParams
 from pipecat.workers.runner import WorkerRunner
@@ -108,10 +109,15 @@ def build_llm(tenant: dict) -> OpenAILLMService:
     )
 
 
-def build_tts() -> DeepgramFluxTTSService | CartesiaTTSService:
-    """Build the TTS service selected by TTS_SERVICE (cartesia | deepgram)."""
+def build_tts(tenant: dict) -> DeepgramFluxTTSService | CartesiaTTSService:
+    """Build the TTS service selected by TTS_SERVICE (cartesia | deepgram).
+
+    The synthesis language follows the tenant (fr -> French, otherwise English) —
+    without this, Cartesia defaults to English and mangles French pronunciation.
+    """
     service = os.getenv("TTS_SERVICE", "cartesia").strip().lower()
     logger.info(f"TTS service: {service}")
+    tts_language = Language.FR if tenant.get("language") == "fr" else Language.EN
 
     if service == "cartesia":
         return CartesiaTTSService(
@@ -120,6 +126,7 @@ def build_tts() -> DeepgramFluxTTSService | CartesiaTTSService:
             settings=CartesiaTTSService.Settings(
                 model="sonic-3.6",
                 voice=os.getenv("TTS_VOICE", DEFAULT_CARTESIA_VOICE),
+                language=tts_language,
             ),
         )
 
@@ -143,7 +150,7 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
     stt = DeepgramFluxSTTService(api_key=require_env("DEEPGRAM_API_KEY"))
 
     # Text-to-Speech service (TTS_SERVICE: cartesia | deepgram)
-    tts = build_tts()
+    tts = build_tts(tenant)
 
     # LLM service (LLM_SERVICE: phonellm | openai)
     llm = build_llm(tenant)
