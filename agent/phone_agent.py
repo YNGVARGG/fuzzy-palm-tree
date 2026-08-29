@@ -75,8 +75,12 @@ def build_llm(tenant: dict) -> OpenAILLMService:
     logger.info(f"LLM service: {service}")
 
     if service == "openai":
+        # Works with any OpenAI-compatible endpoint: OpenAI, Groq, Cerebras, SambaNova...
+        # Set LLM_BASE_URL to point at a free provider (e.g. https://api.groq.com/openai/v1).
+        base_url = os.getenv("LLM_BASE_URL") or None
         return OpenAILLMService(
             api_key=require_env("OPENAI_API_KEY"),
+            base_url=base_url,
             settings=OpenAILLMService.Settings(
                 model=os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
                 system_instruction=build_system_instruction(tenant),
