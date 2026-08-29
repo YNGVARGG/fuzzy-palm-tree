@@ -310,6 +310,68 @@ export default function Dashboard() {
           </Card>
         </TabsContent>
 
+        {/* ---- Appels (transcripts + summaries + recordings) ---- */}
+        <TabsContent value="calls">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">Appels enregistrés</CardTitle>
+              <CardDescription>Chaque appel : transcription, résumé généré par l'IA, et audio (quand disponible)</CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col gap-4">
+              {calls === null ? <Skeleton className="h-24 w-full" /> : calls.length === 0 ? (
+                <EmptyState>
+                  <p className="font-medium text-foreground">Aucun appel pour le moment</p>
+                  <p>Après un appel, la transcription, le résumé et l'enregistrement apparaîtront ici.</p>
+                </EmptyState>
+              ) : calls.map((call) => (
+                <div key={call.id} className="rounded-xl border p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs text-muted-foreground">{call.id.replace("_", " ")}</span>
+                      <Badge variant="outline">{call.message_count} messages</Badge>
+                      {call.has_audio ? <Badge>Audio</Badge> : null}
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={async () => {
+                        if (expandedCall === call.id) { setExpandedCall(null); return }
+                        setExpandedCall(call.id)
+                        if (!callTranscripts[call.id]) {
+                          const r = await fetch("/api/tenants/" + tenantId + "/calls/" + call.id)
+                          const d = await r.json().catch(() => null)
+                          if (d && d.messages) setCallTranscripts((m) => ({ ...m, [call.id]: d.messages }))
+                        }
+                      }}
+                    >
+                      {expandedCall === call.id ? "Masquer" : "Voir la transcription"}
+                    </Button>
+                  </div>
+                  {call.summary ? <p className="mt-2 text-sm">{call.summary}</p> : null}
+                  {call.has_audio ? (
+                    <audio controls preload="none" className="mt-3 h-9 w-full" src={"/api/tenants/" + tenantId + "/calls/" + call.id + "/audio"} />
+                  ) : null}
+                  {expandedCall === call.id ? (
+                    <div className="mt-3 flex flex-col gap-2">
+                      {(callTranscripts[call.id] ?? []).map((m, i) => {
+                        const msg = m as { role?: string; content?: unknown; tool_calls?: unknown }
+                        const text = typeof msg.content === "string" ? msg.content : msg.tool_calls ? JSON.stringify(msg.tool_calls) : ""
+                        if (!text) return null
+                        const isUser = msg.role === "user"
+                        return (
+                          <div key={i} className={"max-w-[85%] rounded-xl px-3 py-2 text-sm " + (isUser ? "self-end bg-primary text-primary-foreground" : "self-start bg-muted")}>
+                            <p className="text-xs opacity-70">{isUser ? "Appelant" : "Agent"}</p>
+                            <p>{text}</p>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+        </TabsContent>
         {/* ---- Configuration ---- */}
         <TabsContent value="config">
           <Card>

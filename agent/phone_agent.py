@@ -27,6 +27,7 @@ from pipecat.processors.aggregators.llm_response_universal import (
     LLMContextAggregatorPair,
     LLMUserAggregatorParams,
 )
+from pipecat.processors.audio.audio_buffer_processor import AudioBufferProcessor
 from pipecat.runner.types import RunnerArguments
 from pipecat.runner.utils import create_transport
 from pipecat.serializers.twilio import TwilioFrameSerializer
@@ -42,6 +43,7 @@ from pipecat.workers.runner import WorkerRunner
 
 from business_context import build_system_instruction
 from business_tools import TOOLS, BusinessStore
+from call_recorder import new_call_dir, save_audio, save_summary, save_transcript, summarize
 from tenant import load_tenant, resolve_tenant_for_call
 
 load_dotenv(override=True)
@@ -182,6 +184,9 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
         user_params=LLMUserAggregatorParams(vad_analyzer=SileroVADAnalyzer()),
     )
 
+    # Call recording buffer (captures the full audio of the session)
+    audiobuffer = AudioBufferProcessor()
+
     # Pipeline — assembled from reusable components
     pipeline = Pipeline(
         [
@@ -191,6 +196,7 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
             llm,
             tts,
             transport.output(),
+            audiobuffer,
             assistant_aggregator,
         ]
     )
@@ -214,6 +220,7 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
 
     @transport.event_handler("on_client_connected")
     async def on_client_connected(transport, client):
+        await audiobuffer.start_recording()
         # Kick off the conversation, in the tenant's language
         # NOTE: user role (not "developer") — Groq/Qwen rejects a first turn with no
         # user message ("No user query found in messages").
@@ -231,6 +238,29 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
         await runner.cancel()
 
     await runner.run()
+
+    # ---- After-call capture: transcript + summary + audio ----
+    await _capture_call(tenant, context, audiobuffer)
+
+
+async def _capture_call(tenant: dict, context, audiobuffer) -> None:
+    """After a session ends: save transcript, audio, and an LLM summary."""
+    import asyncio
+
+    try:
+        call_dir = new_call_dir(tenant["id"])
+        messages = list(context.messages)
+        save_transcript(call_dir, messages)
+        try:
+            audio = audiobuffer.merge_audio_buffers()
+            save_audio(call_dir, audio, audiobuffer.sample_rate, audiobuffer.num_channels)
+        except Exception:
+            logger.exception("Could not save call audio")
+        summary = await asyncio.to_thread(summarize, messages)
+        save_summary(call_dir, summary)
+        logger.info(f"Call captured: {call_dir} — {len(messages)} messages, {len(audio or b'')} audio bytes")
+    except Exception:
+        logger.exception("Could not capture call")
 
 
 def _daily_params():

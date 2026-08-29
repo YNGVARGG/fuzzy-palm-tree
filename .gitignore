@@ -31,3 +31,6 @@ node_modules/
 Thumbs.db
 .idea/
 .vscode/
+
+# Call recordings (personal data)
+agent/calls/
