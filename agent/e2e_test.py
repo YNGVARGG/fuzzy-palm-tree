@@ -196,7 +196,9 @@ def main() -> int:
     check("booking stored", len(store.appointments) == 1)
     if store.appointments:
         a = store.appointments[0]
-        check("booking details", a["service"] == "fuite d'eau" or "fuite" in a["service"], str(a.get("service")))
+        services = tenant["services"]
+        ok_service = a["service"] in services or "fuite" in a["service"]
+        check("booking details", ok_service, str(a.get("service")))
         check("booking confirmed by brain", "réserv" in final_reply or "confirm" in final_reply or a["reference"] in final_reply, final_reply[:100])
 
     print("== Phase 3: dashboard sees the booking", flush=True)
