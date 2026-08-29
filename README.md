@@ -65,7 +65,10 @@ powershell -ExecutionPolicy Bypass -File scripts\setup.ps1
 cd agent && uv run phone_agent.py -t webrtc    # open http://localhost:7860
 
 # 4. Then wire a real number (Twilio + ngrok) — see agent/README.md
-# 5. Production: deploy the always-on agent to your VPS — see deploy/README.md
+# 5. One script, everything: start bot + dashboard, run the 8-check test, open browsers
+powershell -ExecutionPolicy Bypass -File scripts\start-everything.ps1
+
+# 6. Production: deploy the always-on agent to your VPS — see deploy/README.md
 ```
 
 ## Roadmap
