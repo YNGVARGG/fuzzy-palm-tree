@@ -35,7 +35,6 @@ from pipecat.services.deepgram.flux.tts import DeepgramFluxTTSService
 from pipecat.services.openai.llm import OpenAILLMService
 from pipecat.services.tts_service import TextAggregationMode
 from pipecat.transports.base_transport import BaseTransport, TransportParams
-from pipecat.transports.daily.transport import DailyParams
 from pipecat.transports.websocket.fastapi import FastAPIWebsocketParams
 from pipecat.workers.runner import WorkerRunner
 
@@ -200,6 +199,13 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
     await runner.run()
 
 
+def _daily_params():
+    """Daily transport params — imported lazily: daily-python has no Windows wheels."""
+    from pipecat.transports.daily.transport import DailyParams
+
+    return DailyParams(audio_in_enabled=True, audio_out_enabled=True)
+
+
 async def bot(runner_args: RunnerArguments):
     """Main bot entry point — transport is selected with `-t <name>`.
 
@@ -215,10 +221,7 @@ async def bot(runner_args: RunnerArguments):
             audio_in_enabled=True,
             audio_out_enabled=True,
         ),
-        "daily": lambda: DailyParams(
-            audio_in_enabled=True,
-            audio_out_enabled=True,
-        ),
+        "daily": lambda: _daily_params(),  # Daily needs Linux (daily-python has no Windows wheels)
     }
 
     # create_transport auto-detects the telephony provider, builds the matching

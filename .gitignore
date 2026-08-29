@@ -18,6 +18,10 @@ agent/call-activity.jsonl
 # Harness-internal (never commit)
 .dsh/
 
+# Session probe artifacts (root level only)
+/*.txt
+/*.log
+
 # OS / editors
 .DS_Store
 Thumbs.db
