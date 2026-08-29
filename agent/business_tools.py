@@ -22,6 +22,8 @@ from pipecat.adapters.schemas.direct_function import tool_options
 from pipecat.frames.frames import EndWorkerFrame
 from pipecat.services.llm_service import FunctionCallParams
 
+from calendar_service import create_event
+
 _TENANTS_DIR = Path(__file__).resolve().parent / "tenants"
 
 
@@ -222,11 +224,13 @@ async def book_appointment(
     store: BusinessStore = params.app_resources
     booking = store.book(customer_name, phone, service, date, time)
     logger.info(f"book_appointment(...) -> {booking}")
+    calendar_ok, calendar_note = create_event(booking)
     await params.result_callback(
         {
             "success": True,
             "reference": booking["reference"],
             "details": f"{service} on {date} at {time}",
+            "calendar": calendar_note,
         }
     )
 

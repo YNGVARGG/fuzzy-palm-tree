@@ -1,0 +1,35 @@
+name: CI
+
+on: [push]
+
+jobs:
+  agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: cd agent && uv pip install --system "pipecat-ai[openai,deepgram,cartesia,websocket,webrtc,silero,runner]>=1.8.1" "python-dotenv>=1.0"
+      - name: Syntax check
+        run: cd agent && python -m py_compile phone_agent.py business_tools.py business_context.py tenant.py call_recorder.py index_docs.py calendar_service.py
+      - name: Smoke test (tenant + prompts)
+        run: cd agent && python smoke_test.py
+
+  dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: dashboard/pnpm-lock.yaml
+      - name: Install
+        run: cd dashboard && pnpm install --frozen-lockfile
+      - name: Build (typecheck)
+        run: cd dashboard && pnpm build
