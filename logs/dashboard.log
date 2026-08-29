@@ -25,3 +25,12 @@
  GET /api/tenants 405 in 10ms (next.js: 4ms, application-code: 5ms)
  GET /api/tenants 405 in 8ms (next.js: 3ms, application-code: 5ms)
  GET / 200 in 38ms (next.js: 5ms, application-code: 33ms)
+✓ Compiled in 162ms
+ GET / 200 in 240ms (next.js: 62ms, application-code: 178ms)
+ GET /api/tenants 405 in 25ms (next.js: 18ms, application-code: 6ms)
+✓ Compiled in 156ms
+ GET / 200 in 232ms (next.js: 68ms, application-code: 164ms)
+ GET /api/tenants 405 in 29ms (next.js: 22ms, application-code: 7ms)
+✓ Compiled in 65ms
+ GET / 200 in 102ms (next.js: 57ms, application-code: 45ms)
+ GET / 200 in 106ms (next.js: 5ms, application-code: 102ms)
