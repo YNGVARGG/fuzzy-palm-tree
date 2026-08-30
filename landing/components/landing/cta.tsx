@@ -6,7 +6,7 @@ export function Cta() {
   return (
     <section id="cta" className="scroll-mt-24 py-20 sm:py-28">
       <div className="mx-auto w-full max-w-6xl px-5 md:px-8">
-        <div className="relative overflow-hidden rounded-[calc(var(--radius)*2.2)] bg-primary px-6 py-16 text-center sm:px-12 sm:py-20">
+        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-16 text-center sm:px-12 sm:py-20">
           {/* Halo interne : éclaire le bandeau sans décor gratuit */}
           <div
             aria-hidden
@@ -25,6 +25,7 @@ export function Cta() {
                 size="lg"
                 className="bg-primary-foreground px-7 text-base text-primary hover:bg-primary-foreground/90"
                 render={<a href="#top" />}
+                nativeButton={false}
               >
                 Essayer gratuitement
                 <RiArrowRightLine data-icon="inline-end" className="size-4" />
@@ -34,6 +35,7 @@ export function Cta() {
                 variant="ghost"
                 className="px-7 text-base text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
                 render={<a href="#demo" />}
+                nativeButton={false}
               >
                 <RiPhoneLine data-icon="inline-start" className="size-4" />
                 Revoir la démo

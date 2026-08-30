@@ -31,7 +31,7 @@ export function BusinessCloud() {
             {businesses.map((name) => (
               <li
                 key={name}
-                className="text-base font-bold tracking-tight text-foreground/40 transition-colors hover:text-foreground/70 sm:text-lg"
+                className="text-base font-bold tracking-tight text-foreground/60 transition-colors hover:text-foreground/90 sm:text-lg"
               >
                 {name}
               </li>

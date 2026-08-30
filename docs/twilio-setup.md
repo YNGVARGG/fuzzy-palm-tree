@@ -59,7 +59,7 @@ TWIML : wss://abcd1234.ngrok.app/ws
 
 - Call your Twilio number from any phone → you should hear Alex.
 - Say: *“Bonjour, je voudrais un rendez-vous pour une fuite d'eau demain”* → booking flow.
-- Dashboard (:3000) shows the booking. (The agent bot on :7860 is now the phone line,
+- Dashboard (:3001) shows the booking. (The agent bot on :7860 is now the phone line,
   not the browser test — the browser playground only works on the webrtc mode.)
 
 ## Notes & troubleshooting
@@ -68,7 +68,7 @@ TWIML : wss://abcd1234.ngrok.app/ws
 - **Trial account**: calls to your number work; outbound calls/verification may be limited until
   you add a payment method — inbound is what we need.
 - **No audio / one-way audio**: check `logs\agent-twilio.log`; the agent auto-detects 8kHz telephony.
-- **Dashboard while on phone duty**: keep the dashboard (:3000) running; stop the phone line with:
+- **Dashboard while on phone duty**: keep the dashboard (:3001) running; stop the phone line with:
   `powershell -ExecutionPolicy Bypass -File scripts\stop-all.ps1` then restart webrtc mode with
   `start-everything.ps1`.
 - Back on the browser test anytime: `start-everything.ps1` (it restarts the bot in webrtc mode).

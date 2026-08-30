@@ -12,6 +12,17 @@ review vidéo sont indexés ; rien sur les couleurs, polices ou sections.
 3. Le détail qui lui plaît le plus (« la démo d'appel », « la typo », « les
    couleurs »…).
 
+## Comment fournir les captures (pour l'utilisateur)
+
+- Ouvrir https://eddie.eco/ dans Chrome/Edge, puis F12 → icône appareil photo
+  (ou Ctrl+Maj+P → « Capture full size screenshot ») → le fichier PNG est
+  téléchargé, il suffit de le glisser dans le chat.
+- Idéalement 3 captures : haut de page (hero), milieu (features/démo),
+  bas (tarifs/footer) — + une capture mobile (F12 → mode appareil, 390 px de
+  large) si le rendu mobile diffère.
+- Chaque capture peut être accompagnée d'une remarque : « j'aime ceci », « pas
+  ceci » — le passage s'en trouve accéléré.
+
 ## Points d'alignement (dans l'ordre d'impact)
 
 ### 1. Palette

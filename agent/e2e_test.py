@@ -22,7 +22,7 @@ load_dotenv(override=True)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOG_FILE = os.path.join(ROOT, "agent", "call-activity.jsonl")
-DASH_URL = "http://127.0.0.1:3000"
+DASH_URL = os.getenv("DASH_URL", "http://127.0.0.1:3001")
 AGENT_URL = "http://127.0.0.1:7860"
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

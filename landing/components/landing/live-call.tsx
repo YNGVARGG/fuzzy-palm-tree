@@ -1,4 +1,4 @@
-import { RiPhoneOffLine, RiPlayLine, RiVoiceprintLine } from "@remixicon/react"
+import { RiPlayLine, RiStopLine, RiVoiceprintLine } from "@remixicon/react"
 
 import { Placeholder, SyntheticTag } from "@/components/landing/placeholder"
 import { Waveform } from "@/components/landing/waveform"
@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 export function LiveCall() {
   return (
     <Placeholder label="Appel en direct (transcript + onde)" className="w-full max-w-2xl">
-      <div className="relative flex flex-col gap-5 rounded-[calc(var(--radius)*1.4)] border bg-card p-6 sm:p-8">
+      <div className="relative flex flex-col gap-5 rounded-xl border bg-card p-6 sm:p-8">
         <SyntheticTag />
 
         <div className="flex items-center justify-between gap-4">
@@ -52,7 +52,7 @@ export function LiveCall() {
         <div className="flex items-center justify-between border-t pt-4 text-xs text-muted-foreground">
           <span>Confirmation envoyée par SMS</span>
           <span className="inline-flex items-center gap-1.5">
-            <RiPhoneOffLine className="size-3.5" />
+            <RiStopLine className="size-3.5" />
             Fin de l&rsquo;appel
           </span>
         </div>

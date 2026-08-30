@@ -8,17 +8,19 @@ import { Hero } from "@/components/landing/hero"
 import { Nav } from "@/components/landing/nav"
 import { Pricing } from "@/components/landing/pricing"
 import { Problem } from "@/components/landing/problem"
+import { Testimonials } from "@/components/landing/testimonials"
 
 export default function LandingPage() {
   return (
     <>
       <Nav />
-      <main>
+      <main id="main">
         <Hero />
         <BusinessCloud />
         <Problem />
         <Features />
         <Demo />
+        <Testimonials />
         <Pricing />
         <Faq />
         <Cta />

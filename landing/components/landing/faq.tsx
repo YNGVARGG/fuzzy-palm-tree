@@ -42,7 +42,7 @@ export function Faq() {
           {faqs.map((f) => (
             <details key={f.q} className="group">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none [&::-webkit-details-marker]:hidden">
-                <h3 className="text-base font-semibold tracking-tight sm:text-lg">{f.q}</h3>
+                <span className="text-base font-semibold tracking-tight sm:text-lg">{f.q}</span>
                 <span
                   aria-hidden
                   className="flex size-7 shrink-0 items-center justify-center rounded-full border text-muted-foreground transition-transform duration-200 group-open:rotate-45"

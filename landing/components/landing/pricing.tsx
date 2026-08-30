@@ -74,7 +74,7 @@ export function Pricing() {
             Payez pour votre agent, pas pour les minutes&nbsp;: chaque plan couvre
             les appels reçus, sans surprise.
           </p>
-          <div className="flex items-center gap-3">
+          <div role="group" aria-label="Période de facturation" className="flex items-center gap-3">
             <span
               className={cn(
                 "text-sm font-medium",
@@ -125,7 +125,7 @@ export function Pricing() {
               <article
                 key={p.name}
                 className={cn(
-                  "relative flex flex-col gap-6 rounded-[calc(var(--radius)*1.4)] border bg-card p-7",
+                  "relative flex flex-col gap-6 rounded-xl border bg-card p-7",
                   p.featured &&
                     "border-primary/60 shadow-[0_24px_64px_-32px_color-mix(in_oklch,var(--primary),transparent_50%)]"
                 )}
@@ -162,6 +162,7 @@ export function Pricing() {
                   variant={p.featured ? "default" : "outline"}
                   size="lg"
                   render={<a href="#cta" />}
+                  nativeButton={false}
                   className="mt-auto w-full"
                 >
                   {p.cta}

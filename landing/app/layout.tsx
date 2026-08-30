@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Geist_Mono, Raleway } from "next/font/google"
 
 import "./globals.css"
@@ -22,6 +22,28 @@ export const metadata: Metadata = {
   },
   description:
     "L'agent téléphonique IA de votre entreprise : il répond à chaque appel, prend les rendez-vous, répond aux questions de vos documents et ne laisse plus jamais sonner dans le vide.",
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Standard IA",
+    title: "Standard IA — Chaque entreprise a son agent téléphonique",
+    description:
+      "L'agent téléphonique IA de votre entreprise : il répond à chaque appel, prend les rendez-vous et ne laisse plus jamais sonner dans le vide.",
+  },
+  twitter: {
+    card: "summary",
+    title: "Standard IA — Chaque entreprise a son agent téléphonique",
+    description:
+      "L'agent téléphonique IA de votre entreprise : il répond, prend les rendez-vous et résume chaque appel.",
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0a09" },
+  ],
+  colorScheme: "light dark",
 }
 
 export default function RootLayout({
@@ -58,7 +80,15 @@ export default function RootLayout({
         with the finish review, the verdict, DESIGN.md, and every shipping raster
         carrying its provenance »
         */}
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <a
+            href="#main"
+            className="sr-only z-[60] rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+          >
+            Aller au contenu
+          </a>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

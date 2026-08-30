@@ -68,7 +68,7 @@ export function Features() {
               <article
                 key={f.title}
                 className={
-                  "group relative flex flex-col justify-between gap-8 overflow-hidden rounded-[calc(var(--radius)*1.4)] border bg-card p-6 transition-shadow hover:shadow-[0_16px_48px_-24px_color-mix(in_oklch,var(--foreground),transparent_60%)] sm:p-7 " +
+                  "group relative flex flex-col justify-between gap-8 overflow-hidden rounded-xl border bg-card p-6 transition-shadow hover:shadow-[0_16px_48px_-24px_color-mix(in_oklch,var(--foreground),transparent_60%)] sm:p-7 " +
                   span
                 }
               >

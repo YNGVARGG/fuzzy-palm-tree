@@ -16,7 +16,7 @@ export function Hero() {
         <div className="flex max-w-3xl flex-col items-center text-center">
           <h1 className="text-balance text-4xl font-extrabold tracking-[-0.03em] sm:text-6xl lg:text-7xl">
             Plus jamais d&rsquo;appel{" "}
-            <span className="text-primary">manqué</span>
+            <span className="text-primary-strong">manqué</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -26,7 +26,7 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col items-center gap-3 sm:flex-row">
-            <Button size="lg" render={<a href="#tarifs" />} className="w-full px-7 text-base sm:w-auto">
+            <Button size="lg" render={<a href="#tarifs" />} nativeButton={false} className="w-full px-7 text-base sm:w-auto">
               Essayer gratuitement
               <RiArrowRightLine data-icon="inline-end" className="size-4" />
             </Button>
@@ -34,6 +34,7 @@ export function Hero() {
               size="lg"
               variant="outline"
               render={<a href="#demo" />}
+              nativeButton={false}
               className="w-full px-7 text-base sm:w-auto"
             >
               <RiPlayCircleLine data-icon="inline-start" className="size-4" />

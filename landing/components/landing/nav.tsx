@@ -18,6 +18,12 @@ export function Nav() {
   const { resolvedTheme, setTheme } = useTheme()
   const [open, setOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
+  // « Hydraté ? » sans effet de bord — motif useSyncExternalStore (lint-clean).
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  )
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -25,6 +31,15 @@ export function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
+
+  React.useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false)
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [open])
 
   return (
     <header
@@ -53,7 +68,7 @@ export function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="rounded-full px-3.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="rounded-full px-3.5 py-2 text-sm font-medium text-foreground/70 transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
               >
                 {l.label}
               </a>
@@ -65,12 +80,12 @@ export function Nav() {
           <Button
             variant="ghost"
             size="icon"
-            aria-label={resolvedTheme === "dark" ? "Passer en mode clair" : "Passer en mode sombre"}
+            aria-label="Changer de thème (clair / sombre)"
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
           >
-            {resolvedTheme === "dark" ? <RiSunLine className="size-4" /> : <RiMoonLine className="size-4" />}
+            {mounted && resolvedTheme === "dark" ? <RiSunLine className="size-4" /> : <RiMoonLine className="size-4" />}
           </Button>
-          <Button render={<a href="#tarifs" />} size="lg" className="hidden sm:inline-flex">
+          <Button render={<a href="#tarifs" />} nativeButton={false} size="lg" className="hidden sm:inline-flex">
             Essayer gratuitement
           </Button>
           <Button
@@ -79,6 +94,7 @@ export function Nav() {
             className="md:hidden"
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
+            aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <RiCloseLine className="size-5" /> : <RiMenuLine className="size-5" />}
@@ -87,7 +103,7 @@ export function Nav() {
       </nav>
 
       {open ? (
-        <div className="border-t border-border/60 bg-background/95 backdrop-blur-md md:hidden">
+        <div id="mobile-menu" className="border-t border-border/60 bg-background/95 backdrop-blur-md md:hidden">
           <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4">
             {links.map((l) => (
               <li key={l.href}>
@@ -101,7 +117,7 @@ export function Nav() {
               </li>
             ))}
             <li className="mt-2">
-              <Button render={<a href="#tarifs" onClick={() => setOpen(false)} />} size="lg" className="w-full">
+              <Button render={<a href="#tarifs" onClick={() => setOpen(false)} />} nativeButton={false} size="lg" className="w-full">
                 Essayer gratuitement
               </Button>
             </li>

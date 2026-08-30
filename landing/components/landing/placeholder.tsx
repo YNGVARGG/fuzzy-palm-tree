@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -31,7 +29,7 @@ export function Placeholder({
     <div
       data-placeholder={label}
       className={cn(
-        "relative overflow-hidden rounded-[calc(var(--radius)*1.4)] border border-dashed border-[color-mix(in_oklch,var(--foreground),transparent_75%)]",
+        "relative overflow-hidden rounded-xl border border-dashed border-[color-mix(in_oklch,var(--foreground),transparent_75%)]",
         className
       )}
     >

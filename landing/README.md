@@ -22,7 +22,16 @@ npm run build       # build de production
 npm run typecheck   # tsc --noEmit
 npm run lint        # eslint
 npm run format      # prettier
+node docs/review/qa.mjs     # QA visuel automatisé (Playwright : sections,
+                            # débordement, contraste, interactions, erreurs
+                            # console — desktop, mobile et sombre)
+node docs/review/audit.mjs  # Audit d'accessibilité axe-core (WCAG 2.x AA)
 ```
+
+Les captures de référence vivent dans `docs/review/` (`desktop.png`,
+`mobile.png`, `desktop-dark.png`, `mobile-dark.png`), ainsi que le rapport
+Lighthouse (`lighthouse.json`) : performance 0.96, accessibilité 1.00,
+bonnes pratiques 1.00, SEO 1.00.
 
 ## Direction de design (contractée dans app/layout.tsx)
 
@@ -53,8 +62,12 @@ instructions de remplacement.
 
 ## À configurer (TODO utilisateur)
 
+- Domaine réel du site : `app/robots.ts` et `app/sitemap.ts` (`SITE_URL`)
+  — le domaine `https://standard-ia.fr` est un placeholder.
 - Prix et remise annuelle : `components/landing/pricing.tsx`
 - Coordonnées (e-mail, téléphone, réseaux) : `components/landing/footer.tsx`
 - Vrais noms de clients : `components/landing/business-cloud.tsx`
+- Vrais témoignages (actuellement illustratifs, marqués « Maquette ») :
+  `components/landing/testimonials.tsx`
 - Alignement fin sur eddie.eco : envoyer des captures d'écran pour un passage
   pixel-exact (palette, typographie, sections).
