@@ -35,10 +35,8 @@ export default function SettingsPage() {
       after_hours_note: tenant.after_hours_note ?? "",
       booking_slots: tenant.booking_slots ?? "",
       callback_promise: tenant.callback_promise ?? "",
-      services: (tenant.services ?? []).join("
-"),
-      faq: Object.entries(tenant.faq ?? {}).map(([k, v]) => k + ": " + v).join("
-"),
+      services: (tenant.services ?? []).join("\n"),
+      faq: Object.entries(tenant.faq ?? {}).map(([k, v]) => k + ": " + v).join("\n"),
       avg_appointment_value: String(tenant.avg_appointment_value ?? ""),
       missed_calls_per_month: String(tenant.missed_calls_per_month ?? ""),
     })
@@ -48,8 +46,7 @@ export default function SettingsPage() {
 
   const save = async () => {
     const faq: Record<string, string> = {}
-    for (const line of f.faq.split("
-")) {
+    for (const line of f.faq.split("\n")) {
       const i = line.indexOf(":")
       if (i > 0) {
         const k = line.slice(0, i).trim()
@@ -61,8 +58,7 @@ export default function SettingsPage() {
       name: f.name, tagline: f.tagline, greeting_name: f.greeting_name, language: f.language,
       hours: f.hours, after_hours_note: f.after_hours_note, booking_slots: f.booking_slots,
       callback_promise: f.callback_promise,
-      services: f.services.split("
-").map((s) => s.trim()).filter(Boolean),
+      services: f.services.split("\n").map((s) => s.trim()).filter(Boolean),
       faq,
     }
     const avg = parseFloat(f.avg_appointment_value)
