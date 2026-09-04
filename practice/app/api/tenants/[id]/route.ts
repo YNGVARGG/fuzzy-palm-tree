@@ -34,6 +34,10 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (Array.isArray(body.services)) {
       tenant.services = body.services.map((s) => String(s).trim()).filter(Boolean)
     }
+    for (const key of ["avg_appointment_value", "missed_calls_per_month"]) {
+      const v = body[key]
+      if (typeof v === "number" && isFinite(v)) tenant[key] = v
+    }
     if (body.faq && typeof body.faq === "object" && !Array.isArray(body.faq)) {
       const faq: Record<string, string> = {}
       for (const [k, v] of Object.entries(body.faq as Record<string, unknown>)) {

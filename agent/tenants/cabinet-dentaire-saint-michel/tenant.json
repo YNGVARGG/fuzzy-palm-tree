@@ -1,0 +1,31 @@
+{
+  "id": "cabinet-dentaire-saint-michel",
+  "name": "Cabinet Dentaire Saint-Michel",
+  "tagline": "cabinet dentaire familial au cœur de Bordeaux",
+  "language": "fr",
+  "greeting_name": "Sophie",
+  "phone_numbers": [],
+  "services": [
+    "consultation dentaire",
+    "détartrage et prévention",
+    "soins et caries",
+    "orthodontie",
+    "implantologie",
+    "urgence dentaire"
+  ],
+  "hours": "du lundi au vendredi de 8h30 à 19h, le samedi de 9h à 13h",
+  "after_hours_note": "Si l'appel a lieu en dehors des heures d'ouverture, propose de prendre rendez-vous le jour ouvrable suivant ou de laisser un message pour être rappelé.",
+  "booking_slots": "Les rendez-vous durent 60 minutes.",
+  "callback_promise": "L'équipe rappelle dans un délai d'un jour ouvrable.",
+  "faq": {
+    "urgence": "En cas d'urgence dentaire (douleur aiguë, traumatisme), nous gardons des créneaux chaque jour : appelez dès l'ouverture, nous vous recevons aujourd'hui.",
+    "premier_rdv": "Pour un premier rendez-vous, prévoyez 30 minutes : examen complet et devis des soins si besoin.",
+    "mutuelle": "Nous pratiquons le tiers payant avec la plupart des mutuelles — votre reste à charge est souvent nul pour les soins courants.",
+    "cpam": "Les soins dentaires sont remboursés par l'Assurance Maladie selon le tarif conventionné ; nous gérons les feuilles de soins électroniques.",
+    "paiement": "Paiement par carte, chèque ou espèces. Un devis gratuit est établi avant tout traitement important.",
+    "annulation": "En cas d'empêchement, merci de prévenir au moins 24h à l'avance pour libérer le créneau.",
+    "orthodontie": "Une première consultation d'orthodontie est offerte pour les enfants de moins de 16 ans, avec un bilan complet."
+  },
+  "avg_appointment_value": 75,
+  "missed_calls_per_month": 0
+}

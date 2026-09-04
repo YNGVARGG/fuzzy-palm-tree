@@ -12,6 +12,8 @@ export type Tenant = {
   services: string[]
   faq: Record<string, string>
   phone_numbers?: string[]
+  avg_appointment_value?: number
+  missed_calls_per_month?: number
 }
 
 export type ActivityEvent = {
