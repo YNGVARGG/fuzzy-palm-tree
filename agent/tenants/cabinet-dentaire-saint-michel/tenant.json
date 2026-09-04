@@ -27,5 +27,16 @@
     "orthodontie": "Une première consultation d'orthodontie est offerte pour les enfants de moins de 16 ans, avec un bilan complet."
   },
   "avg_appointment_value": 75,
-  "missed_calls_per_month": 0
+  "missed_calls_per_month": 0,
+  "insurance": "Tiers payant accepté, CPAM, mutuelles",
+  "providers": [
+    "Dr Martin",
+    "Dr Petit",
+    "Dr Delacroix"
+  ],
+  "languages": [
+    "fr",
+    "en",
+    "ar"
+  ]
 }

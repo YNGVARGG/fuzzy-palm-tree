@@ -18,7 +18,7 @@ export default function SettingsPage() {
   const [f, setF] = useState({
     name: "", tagline: "", greeting_name: "", language: "fr", hours: "",
     after_hours_note: "", booking_slots: "", callback_promise: "",
-    services: "", faq: "", avg_appointment_value: "", missed_calls_per_month: "",
+    services: "", faq: "", avg_appointment_value: "", missed_calls_per_month: "", providers: "", insurance: "", languages: "",
   })
   const [msg, setMsg] = useState("")
   const [cal, setCal] = useState<{ configured: boolean; calendar_id?: string } | null>(null)
@@ -43,6 +43,9 @@ export default function SettingsPage() {
       faq: Object.entries(tenant.faq ?? {}).map(([k, v]) => k + ": " + v).join("\n"),
       avg_appointment_value: String(tenant.avg_appointment_value ?? ""),
       missed_calls_per_month: String(tenant.missed_calls_per_month ?? ""),
+      providers: (tenant.providers ?? []).join("\n"),
+      insurance: tenant.insurance ?? "",
+      languages: (tenant.languages ?? ["fr"]).join(", "),
     })
   }, [tenant])
 
@@ -69,6 +72,9 @@ export default function SettingsPage() {
     if (isFinite(avg)) body.avg_appointment_value = avg
     const missed = parseInt(f.missed_calls_per_month, 10)
     if (isFinite(missed)) body.missed_calls_per_month = missed
+    body.providers = f.providers.split("\n").map((s) => s.trim()).filter(Boolean)
+    body.insurance = f.insurance
+    body.languages = f.languages.split(",").map((s) => s.trim()).filter(Boolean)
     const r = await fetch("/api/tenants/" + tenantId, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) })
     if (r.ok) {
       setMsg("Enregistré — l'agent appliquera ces informations dès le prochain appel.")
@@ -159,6 +165,20 @@ export default function SettingsPage() {
           <div className="flex flex-col gap-2">
             <Label>Services (un par ligne)</Label>
             <Textarea rows={4} value={f.services} onChange={set("services")} />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="flex flex-col gap-2">
+              <Label>Praticiens (un par ligne)</Label>
+              <Textarea rows={3} value={f.providers} onChange={set("providers")} placeholder="Dr Martin\nDr Petit" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Assurances / mutuelles acceptées</Label>
+              <Input value={f.insurance} onChange={set("insurance")} placeholder="Tiers payant, CPAM…" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>Langues parlées (séparées par des virgules)</Label>
+              <Input value={f.languages} onChange={set("languages")} placeholder="fr, en, ar" />
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <Label>Questions fréquentes (format : « question : réponse » par ligne)</Label>

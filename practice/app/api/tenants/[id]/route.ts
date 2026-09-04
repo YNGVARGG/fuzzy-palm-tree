@@ -34,6 +34,13 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (Array.isArray(body.services)) {
       tenant.services = body.services.map((s) => String(s).trim()).filter(Boolean)
     }
+    if (typeof body.insurance === "string" && body.insurance.trim() !== "") tenant.insurance = body.insurance.trim()
+    if (Array.isArray(body.providers)) {
+      tenant.providers = body.providers.map((s) => String(s).trim()).filter(Boolean)
+    }
+    if (Array.isArray(body.languages)) {
+      tenant.languages = body.languages.map((s) => String(s).trim()).filter(Boolean)
+    }
     for (const key of ["avg_appointment_value", "missed_calls_per_month"]) {
       const v = body[key]
       if (typeof v === "number" && isFinite(v)) tenant[key] = v

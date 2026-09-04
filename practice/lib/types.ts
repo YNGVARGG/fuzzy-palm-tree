@@ -14,6 +14,9 @@ export type Tenant = {
   phone_numbers?: string[]
   avg_appointment_value?: number
   missed_calls_per_month?: number
+  providers?: string[]
+  insurance?: string
+  languages?: string[]
 }
 
 export type ActivityEvent = {
