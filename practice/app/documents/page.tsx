@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { FileText, Upload } from "lucide-react"
+import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -93,7 +94,7 @@ export default function DocumentsPage() {
               <TableBody>
                 {docs.files.map((f) => (
                   <TableRow key={f.name}>
-                    <TableCell className="font-mono text-xs">{f.name}</TableCell>
+                    <TableCell className="font-mono text-xs"><Link href={"/documents/" + encodeURIComponent(f.name)} className="text-primary hover:underline">{f.name}</Link></TableCell>
                     <TableCell className="text-right text-xs text-muted-foreground">{(f.size / 1024).toFixed(1)} Ko</TableCell>
                   </TableRow>
                 ))}

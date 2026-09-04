@@ -29,3 +29,11 @@ INFO:     127.0.0.1:55068 - "GET / HTTP/1.1" 307 Temporary Redirect
 INFO:     127.0.0.1:55069 - "GET /client/ HTTP/1.1" 200 OK
 INFO:     127.0.0.1:55068 - "GET / HTTP/1.1" 307 Temporary Redirect
 INFO:     127.0.0.1:55069 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62153 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62154 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56029 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56030 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56029 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56030 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56029 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56030 - "GET /client/ HTTP/1.1" 200 OK

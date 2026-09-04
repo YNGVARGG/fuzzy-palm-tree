@@ -36,6 +36,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   const { resolvedTheme, setTheme } = useTheme()
   const { tenant, agentUp, demoEnabled, setDemoEnabled } = usePractice()
 
+  if (pathname.startsWith("/schedule")) return <>{children}</>
+
   return (
     <div className="flex min-h-svh">
       {/* Sidebar (desktop) */}

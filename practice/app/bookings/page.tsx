@@ -1,11 +1,14 @@
 "use client"
 
-import { CalendarCheck, Download, MessageSquareText } from "lucide-react"
+import { useState } from "react"
+
+import { CalendarCheck, Download, MessageSquareText, Search } from "lucide-react"
 import Link from "next/link"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -21,7 +24,8 @@ const todayISO = () => new Date().toISOString().slice(0, 10)
 export default function BookingsPage() {
   const { tenant, tenantId } = usePractice()
   const data = usePracticeData()
-  const bookings = (data.bookings as ActivityEvent[]).slice()
+  const [q, setQ] = useState("")
+  const bookings = (data.bookings as ActivityEvent[]).filter((b) => !q || (String(b.customer_name) + " " + String(b.service)).toLowerCase().includes(q.toLowerCase()))
   const messages = data.messages as ActivityEvent[]
   const avgValue = tenant?.avg_appointment_value ?? 0
   const totalValue = bookings.length * avgValue
@@ -70,9 +74,15 @@ export default function BookingsPage() {
             {data.demo ? " · données de démonstration" : ""}
           </p>
         </div>
-        {bookings.length > 0 ? (
-          <Button variant="outline" size="sm" onClick={exportCsv}><Download className="size-3.5" /> Exporter CSV</Button>
-        ) : null}
+        <div className="flex items-center gap-2">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
+            <Input placeholder="Rechercher un patient…" className="w-56 pl-8" value={q} onChange={(e) => setQ(e.target.value)} />
+          </div>
+          {bookings.length > 0 ? (
+            <Button variant="outline" size="sm" onClick={exportCsv}><Download className="size-3.5" /> Exporter CSV</Button>
+          ) : null}
+        </div>
       </div>
 
       {data.loading ? (
