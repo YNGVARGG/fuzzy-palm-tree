@@ -3,11 +3,10 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
-import { CalendarCheck, FileText, LayoutDashboard, Moon, PhoneCall, Settings, Sparkles, Sun } from "lucide-react"
+import { BarChart3, CalendarCheck, FileText, LayoutDashboard, Megaphone, Moon, PhoneCall, Settings, Sparkles, Sun } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { usePractice } from "@/components/practice-context"
 import { cn } from "@/lib/utils"
 
@@ -26,14 +25,16 @@ const NAV = [
   { href: "/", label: "Vue d'ensemble", icon: LayoutDashboard },
   { href: "/calls", label: "Appels", icon: PhoneCall },
   { href: "/bookings", label: "Rendez-vous", icon: CalendarCheck },
+  { href: "/campaigns", label: "Campagnes", icon: Megaphone },
   { href: "/documents", label: "Documents", icon: FileText },
+  { href: "/performance", label: "Performances", icon: BarChart3 },
   { href: "/settings", label: "Réglages", icon: Settings },
 ]
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const { resolvedTheme, setTheme } = useTheme()
-  const { tenants, tenantId, tenant, setTenantId, agentUp, demoEnabled, setDemoEnabled } = usePractice()
+  const { tenant, agentUp, demoEnabled, setDemoEnabled } = usePractice()
 
   return (
     <div className="flex min-h-svh">
@@ -103,14 +104,6 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <p className="truncate font-heading text-sm font-semibold md:text-base">{tenant?.name ?? "Chargement…"}</p>
             {tenant ? <p className="hidden text-xs text-muted-foreground md:block">{tenant.tagline}</p> : null}
           </div>
-          {tenants.length > 1 ? (
-            <Select value={tenantId} onValueChange={(v) => setTenantId(v ?? "")}>
-              <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {tenants.map((t) => (<SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>))}
-              </SelectContent>
-            </Select>
-          ) : null}
           {demoEnabled ? (
             <Button variant="secondary" size="sm" className="gap-1.5" onClick={() => setDemoEnabled(false)}>
               <Sparkles className="size-3.5" /> Démo

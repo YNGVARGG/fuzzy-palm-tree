@@ -21,9 +21,6 @@ export default function SettingsPage() {
     services: "", faq: "", avg_appointment_value: "", missed_calls_per_month: "",
   })
   const [msg, setMsg] = useState("")
-  const [showNew, setShowNew] = useState(false)
-  const [newF, setNewF] = useState({ name: "", tagline: "", hours: "", language: "fr" })
-  const [newMsg, setNewMsg] = useState("")
   const [cal, setCal] = useState<{ configured: boolean; calendar_id?: string } | null>(null)
   const [dangerMsg, setDangerMsg] = useState("")
 
@@ -82,24 +79,6 @@ export default function SettingsPage() {
     }
   }
 
-  const createPractice = async () => {
-    if (!newF.name.trim()) return
-    const r = await fetch("/api/tenants", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: newF.name.trim(), tagline: newF.tagline.trim(), hours: newF.hours.trim(), language: newF.language }),
-    })
-    const d = await r.json()
-    if (r.ok && d.id) {
-      setNewMsg("Cabinet créé : " + d.name)
-      setShowNew(false)
-      setNewF({ name: "", tagline: "", hours: "", language: "fr" })
-      window.location.reload()
-    } else {
-      setNewMsg("Erreur : " + (d.error ?? "inconnue"))
-    }
-  }
-
   const purgeCalls = async (days: number) => {
     const label = days > 0 ? "Supprimer tous les appels de plus de " + days + " jours (audio compris) ?" : "Supprimer TOUS les appels enregistrés (audio compris) ?"
     if (!window.confirm(label + " Cette action est irréversible.")) return
@@ -132,45 +111,10 @@ export default function SettingsPage() {
           <h1 className="font-heading text-2xl font-semibold tracking-tight">Réglages</h1>
           <p className="text-sm text-muted-foreground">Ce que l&apos;agent sait de votre cabinet — appliqué dès le prochain appel</p>
         </div>
-        <Button variant="outline" size="sm" onClick={() => setShowNew((v) => !v)}>Nouveau cabinet</Button>
+
       </div>
 
-      {showNew ? (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Créer un cabinet</CardTitle>
-            <CardDescription>Un nouvel agent prêt en une minute</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-2">
-                <Label>Nom</Label>
-                <Input value={newF.name} onChange={(e) => setNewF((x) => ({ ...x, name: e.target.value }))} placeholder="Ex : Cabinet Dentaire Rive Gauche" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <Label>Slogan</Label>
-                <Input value={newF.tagline} onChange={(e) => setNewF((x) => ({ ...x, tagline: e.target.value }))} />
-              </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label>Horaires</Label>
-              <Input value={newF.hours} onChange={(e) => setNewF((x) => ({ ...x, hours: e.target.value }))} placeholder="Ex : du lundi au vendredi de 8h30 à 19h" />
-            </div>
-            <div className="flex items-center gap-4">
-              <Label>Langue</Label>
-              <Select value={newF.language} onValueChange={(v) => setNewF((x) => ({ ...x, language: v ?? "fr" }))}>
-                <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                </SelectContent>
-              </Select>
-              <Button onClick={createPractice}>Créer</Button>
-              {newMsg ? <p className="text-sm text-muted-foreground">{newMsg}</p> : null}
-            </div>
-          </CardContent>
-        </Card>
-      ) : null}
+      
 
       <Card>
         <CardHeader>

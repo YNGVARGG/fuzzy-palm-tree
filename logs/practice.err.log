@@ -132,3 +132,75 @@ Import traces:
     ./app/settings/page.tsx [Server Component]
 
 
+[browser] Uncaught Error: ./app/settings/page.tsx:46:1
+Unterminated string constant
+  44 |       callback_promise: tenant.callback_promise ?? "",
+  45 |       services: (tenant.services ?? []).join("
+> 46 | "),
+     | ^^^
+  47 |       faq: Object.entries(tenant.faq ?? {}).map(([k, v]) => k + ": " + v).join("
+  48 | "),
+  49 |       avg_appointment_value: String(tenant.avg_appointment_value ?? ""),
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/settings/page.tsx:46:1)
+    at <unknown> (Error: (./app/settings/page.tsx:46:1)
+[browser] Uncaught Error: ./app/settings/page.tsx:46:1
+Unterminated string constant
+  44 |       callback_promise: tenant.callback_promise ?? "",
+  45 |       services: (tenant.services ?? []).join("
+> 46 | "),
+     | ^^^
+  47 |       faq: Object.entries(tenant.faq ?? {}).map(([k, v]) => k + ": " + v).join("
+  48 | "),
+  49 |       avg_appointment_value: String(tenant.avg_appointment_value ?? ""),
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/settings/page.tsx:46:1)
+    at <unknown> (Error: (./app/settings/page.tsx:46:1)
+[browser] Uncaught Error: ./app/settings/page.tsx:46:1
+Unterminated string constant
+  44 |       callback_promise: tenant.callback_promise ?? "",
+  45 |       services: (tenant.services ?? []).join("
+> 46 | "),
+     | ^^^
+  47 |       faq: Object.entries(tenant.faq ?? {}).map(([k, v]) => k + ": " + v).join("
+  48 | "),
+  49 |       avg_appointment_value: String(tenant.avg_appointment_value ?? ""),
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/settings/page.tsx:46:1)
+    at <unknown> (Error: (./app/settings/page.tsx:46:1)
