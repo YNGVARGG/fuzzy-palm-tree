@@ -33,7 +33,7 @@ export type CallInfo = {
   recording_refused?: boolean
 }
 
-export function listCalls(tenantId: string): CallInfo[] {
+export function listCalls(tenantId: string, limit = 200): CallInfo[] {
   const dir = path.join(CALLS_DIR, tenantId)
   if (!fs.existsSync(dir)) return []
   return fs
@@ -78,15 +78,67 @@ export function listCalls(tenantId: string): CallInfo[] {
       }
     })
     .sort((a, b) => b.id.localeCompare(a.id))
+    .slice(0, limit)
 }
+
+let _cache: { mtimeMs: number; size: number; events: ActivityEvent[] } | null = null
 
 export function readEvents(): ActivityEvent[] {
   if (!fs.existsSync(LOG_FILE)) return []
+  const stat = fs.statSync(LOG_FILE)
+  if (_cache && _cache.mtimeMs === stat.mtimeMs && _cache.size === stat.size) {
+    return _cache.events
+  }
   const out: ActivityEvent[] = []
   for (const line of fs.readFileSync(LOG_FILE, "utf8").split("\n")) {
     const t = line.trim()
     if (!t) continue
     try { out.push(JSON.parse(t)) } catch { /* skip malformed */ }
   }
+  _cache = { mtimeMs: stat.mtimeMs, size: stat.size, events: out }
   return out
+}
+
+export function purgeCallDirs(tenantId: string, olderThanDays: number): number {
+  const dir = path.join(CALLS_DIR, tenantId)
+  if (!fs.existsSync(dir)) return 0
+  const cutoff = Date.now() - olderThanDays * 86400000
+  let removed = 0
+  for (const d of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (!d.isDirectory()) continue
+    const m = d.name.match(/^(\d{4})-(\d{2})-(\d{2})_/)
+    if (!m) continue
+    const ts = Date.parse(m[1] + "-" + m[2] + "-" + m[3] + "T00:00:00Z")
+    if (!isNaN(ts) && ts < cutoff) {
+      fs.rmSync(path.join(dir, d.name), { recursive: true, force: true })
+      removed++
+    }
+  }
+  return removed
+}
+
+export function removeTenantData(tenantId: string): void {
+  const tenantDir = path.join(TENANTS_DIR, tenantId)
+  if (fs.existsSync(tenantDir)) fs.rmSync(tenantDir, { recursive: true, force: true })
+  const callsDir = path.join(CALLS_DIR, tenantId)
+  if (fs.existsSync(callsDir)) fs.rmSync(callsDir, { recursive: true, force: true })
+  // strip this tenant's events from the activity log
+  if (fs.existsSync(LOG_FILE)) {
+    const kept = fs
+      .readFileSync(LOG_FILE, "utf8")
+      .split("\n")
+      .filter((line) => {
+        const t = line.trim()
+        if (!t) return false
+        try {
+          const e = JSON.parse(t)
+          return e.tenant !== tenantId
+        } catch {
+          return true
+        }
+      })
+      .join("\n")
+    fs.writeFileSync(LOG_FILE, kept, "utf8")
+  }
+  _cache = null
 }

@@ -23,6 +23,12 @@ export default function SettingsPage() {
   const [showNew, setShowNew] = useState(false)
   const [newF, setNewF] = useState({ name: "", tagline: "", hours: "", language: "fr" })
   const [newMsg, setNewMsg] = useState("")
+  const [cal, setCal] = useState<{ configured: boolean; calendar_id?: string } | null>(null)
+  const [dangerMsg, setDangerMsg] = useState("")
+
+  useEffect(() => {
+    fetch("/api/config/calendar").then((r) => r.json()).then(setCal).catch(() => undefined)
+  }, [])
 
   useEffect(() => {
     if (!tenant) return
@@ -90,6 +96,29 @@ export default function SettingsPage() {
       window.location.reload()
     } else {
       setNewMsg("Erreur : " + (d.error ?? "inconnue"))
+    }
+  }
+
+
+  const purgeCalls = async (days: number) => {
+    const label = days > 0 ? "Supprimer tous les appels de plus de " + days + " jours (audio compris) ?" : "Supprimer TOUS les appels enregistrés (audio compris) ?"
+    if (!window.confirm(label + " Cette action est irréversible.")) return
+    const url = "/api/tenants/" + tenantId + "/calls" + (days > 0 ? "?days=" + days : "?all=true")
+    const r = await fetch(url, { method: "DELETE" })
+    setDangerMsg(r.ok ? "Appels supprimés." : "Erreur lors de la suppression.")
+  }
+
+  const deletePractice = async () => {
+    const name = tenant?.name ?? ""
+    const typed = window.prompt("Suppression definitive de ce cabinet et de TOUTES ses donnees (appels, enregistrements, documents, rendez-vous). Tapez le nom du cabinet pour confirmer :")
+    if (typed === null) return
+    if (typed.trim() !== name.trim()) { setDangerMsg("Le nom saisi ne correspond pas — suppression annulee."); return }
+    const r = await fetch("/api/tenants/" + tenantId, { method: "DELETE" })
+    if (r.ok) {
+      if (typeof window !== "undefined") window.localStorage.removeItem("practice-id")
+      window.location.href = "/"
+    } else {
+      setDangerMsg("Erreur lors de la suppression.")
     }
   }
 
@@ -222,6 +251,58 @@ export default function SettingsPage() {
             </a>
             <span className="text-xs text-muted-foreground">Voir docs/rgpd-product.md pour le registre et les bonnes pratiques.</span>
           </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Agenda connecté</CardTitle>
+          <CardDescription>Les rendez-vous réservés par l&apos;agent peuvent être créés directement dans votre calendrier</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 text-sm">
+          {cal === null ? (
+            <Skeleton className="h-16 w-full" />
+          ) : cal.configured ? (
+            <div className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
+              <span className="size-2 rounded-full bg-emerald-500" />
+              <p>
+                Connecté à Google Agenda{cal.calendar_id ? " (" + cal.calendar_id + ")" : ""} — chaque nouveau rendez-vous y est créé automatiquement.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2 rounded-xl border p-3">
+                <span className="size-2 rounded-full bg-amber-500" />
+                <p>Non connecté — les rendez-vous restent dans le tableau de bord.</p>
+              </div>
+              <ol className="list-inside list-decimal space-y-1 text-muted-foreground">
+                <li>Créez un compte de service Google (docs/calendar-setup.md, 5 minutes).</li>
+                <li>Partagez votre agenda avec l&apos;adresse du compte de service.</li>
+                <li>Ajoutez GOOGLE_CALENDAR_CREDENTIALS et GOOGLE_CALENDAR_ID dans agent/.env, puis redémarrez l&apos;agent.</li>
+              </ol>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="border-red-500/30">
+        <CardHeader>
+          <CardTitle className="text-base text-red-600 dark:text-red-400">Données &amp; rétention</CardTitle>
+          <CardDescription>Effacement et portabilité — vos droits et ceux de vos patients</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 text-sm">
+          <p className="text-muted-foreground">Conseil de conservation : 12 mois pour un cabinet. La purge est définitive (audio compris).</p>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="outline" size="sm" onClick={() => purgeCalls(30)}>Supprimer les appels de plus de 30 jours</Button>
+            <Button variant="outline" size="sm" onClick={() => purgeCalls(0)}>Supprimer tous les appels enregistrés</Button>
+          </div>
+          <Separator />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="font-medium">Supprimer ce cabinet</p>
+              <p className="text-xs text-muted-foreground">Efface toutes les données : appels, enregistrements, transcriptions, documents, rendez-vous et configuration. Irréversible.</p>
+            </div>
+            <Button variant="destructive" size="sm" onClick={deletePractice}>Supprimer définitivement</Button>
+          </div>
+          {dangerMsg ? <p className="text-sm text-muted-foreground">{dangerMsg}</p> : null}
         </CardContent>
       </Card>
     </div>

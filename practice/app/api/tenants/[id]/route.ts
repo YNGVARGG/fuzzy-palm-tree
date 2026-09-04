@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { NotFoundError, readTenant, saveTenant } from "@/lib/server-data"
+import { NotFoundError, readTenant, removeTenantData, saveTenant } from "@/lib/server-data"
 
 const TEXT_FIELDS = [
   "name",
@@ -47,6 +47,18 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     }
     saveTenant(id, tenant)
     return NextResponse.json({ saved: true, tenant })
+  } catch (e) {
+    if (e instanceof NotFoundError) return NextResponse.json({ error: e.message }, { status: 404 })
+    return NextResponse.json({ error: String(e) }, { status: 500 })
+  }
+}
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    const { id } = await params
+    const tenant = readTenant(id)
+    const name = String(tenant.name ?? id)
+    removeTenantData(id)
+    return NextResponse.json({ deleted: true, id, name })
   } catch (e) {
     if (e instanceof NotFoundError) return NextResponse.json({ error: e.message }, { status: 404 })
     return NextResponse.json({ error: String(e) }, { status: 500 })
