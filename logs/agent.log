@@ -1,0 +1,207 @@
+
+╭─────────────────────────────────────────────────────╮
+│ ᓚᘏᗢ PIPECAT DEVELOPMENT RUNNER                      │
+│                                                     │
+│ Learn about running bots locally and in production: │
+│ https://docs.pipecat.ai/pipecat/deployment/overview │
+╰─────────────────────────────────────────────────────╯
+
+🚀 Bot ready! (WebRTC)
+   → Open: http://localhost:7860
+
+Looking for dist directory at: C:\Users\yonat\Documents\Project\agent\.venv\Lib\site-packages\pipecat_ai_prebuilt\client\dist
+INFO:     127.0.0.1:60884 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60885 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60884 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60885 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60888 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60889 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     ::1:51684 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58999 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59000 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54540 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54541 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54540 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54541 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50895 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50896 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50061 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50062 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50061 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50062 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54357 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54358 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63746 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63747 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63746 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63747 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63743 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63744 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62318 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62319 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62318 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62319 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57161 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57162 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54782 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54783 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54782 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54783 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64537 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64538 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60546 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60547 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60546 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60547 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62060 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62062 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56660 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56661 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50192 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50193 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61086 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61087 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64413 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64414 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60472 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60473 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60472 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60473 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57881 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57882 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56805 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56806 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50527 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50528 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61114 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61115 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52561 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52562 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52561 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52562 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51249 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51250 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65231 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65232 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53625 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53626 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60076 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60077 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65415 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65416 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65415 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65416 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65395 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65396 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52566 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52567 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57265 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57266 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54393 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54394 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56660 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56661 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56660 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56661 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56660 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56661 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51847 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:51848 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53470 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53471 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53600 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53601 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64468 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64469 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64468 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64469 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64468 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:64469 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58232 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:58233 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61191 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61192 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54945 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:54946 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63959 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63960 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63959 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63960 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63959 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:63960 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65512 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:65513 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53627 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53628 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56595 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56596 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61572 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61573 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61572 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61573 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61572 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61573 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57673 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57674 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57863 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57864 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55471 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:55472 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62873 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62874 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62873 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62874 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62873 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:62874 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52309 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52310 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57563 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57564 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50547 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50548 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60496 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60497 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60496 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60497 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60496 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:60497 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52496 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52497 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50838 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:50839 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59594 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:59595 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56723 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56724 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56723 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56724 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56723 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56724 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53189 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:53190 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57664 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:57665 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56958 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56959 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56958 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56959 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56958 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:56959 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52509 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52510 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52509 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52510 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52509 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:52510 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61623 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61624 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61623 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61624 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61623 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:61624 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49365 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49366 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49365 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49366 - "GET /client/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49365 - "GET / HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:49366 - "GET /client/ HTTP/1.1" 200 OK

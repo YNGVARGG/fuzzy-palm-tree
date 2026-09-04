@@ -1,0 +1,6 @@
+2026-08-30 15:01:10.989 | INFO     | pipecat:<module>:54 - ᓚᘏᗢ Pipecat 1.8.1 (Python 3.12.13 (main, May 10 2026, 19:35:37) [MSC v.1944 64 bit (AMD64)]) ᓚᘏᗢ
+2026-08-30 15:01:16.432 | DEBUG    | pipecat.transports.smallwebrtc.connection:<module>:67 - [SCTP] USERDATA_MAX_LENGTH set to 1100
+INFO:     Started server process [18504]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://localhost:7860 (Press CTRL+C to quit)
