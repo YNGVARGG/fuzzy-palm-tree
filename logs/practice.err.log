@@ -38,3 +38,97 @@
        please check the style of container, or the props width(100%) and height(100%),
        or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
        height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+[browser] Uncaught Error: ./app/settings/page.tsx:310:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  308 |     </div>
+  309 |   )
+> 310 | }
+      | ^
+  311 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/settings/page.tsx:310:1)
+    at <unknown> (Error: (./app/settings/page.tsx:310:1)
+[browser] Uncaught Error: ./app/settings/page.tsx:310:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  308 |     </div>
+  309 |   )
+> 310 | }
+      | ^
+  311 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/settings/page.tsx:310:1)
+    at <unknown> (Error: (./app/settings/page.tsx:310:1)
+[browser] Uncaught Error: ./app/settings/page.tsx:310:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  308 |     </div>
+  309 |   )
+> 310 | }
+      | ^
+  311 |
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+
+    at <unknown> (Error: ./app/settings/page.tsx:310:1)
+    at <unknown> (Error: (./app/settings/page.tsx:310:1)
+⨯ ./app/settings/page.tsx:310:1
+Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+  [90m308 |[0m     </div>
+  [90m309 |[0m   )
+[31m[1m>[0m [90m310 |[0m }
+  [90m    |[0m [31m[1m^[0m
+  [90m311 |[0m
+
+Parsing ecmascript source code failed
+
+Import traces:
+  Client Component Browser:
+    ./app/settings/page.tsx [Client Component Browser]
+    ./app/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./app/settings/page.tsx [Client Component SSR]
+    ./app/settings/page.tsx [Server Component]
+
+

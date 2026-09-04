@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
 import { usePractice } from "@/components/practice-context"
 
@@ -99,7 +100,6 @@ export default function SettingsPage() {
     }
   }
 
-
   const purgeCalls = async (days: number) => {
     const label = days > 0 ? "Supprimer tous les appels de plus de " + days + " jours (audio compris) ?" : "Supprimer TOUS les appels enregistrés (audio compris) ?"
     if (!window.confirm(label + " Cette action est irréversible.")) return
@@ -110,9 +110,12 @@ export default function SettingsPage() {
 
   const deletePractice = async () => {
     const name = tenant?.name ?? ""
-    const typed = window.prompt("Suppression definitive de ce cabinet et de TOUTES ses donnees (appels, enregistrements, documents, rendez-vous). Tapez le nom du cabinet pour confirmer :")
+    const typed = window.prompt("Suppression définitive de ce cabinet et de TOUTES ses données (appels, enregistrements, documents, rendez-vous). Tapez le nom du cabinet pour confirmer :")
     if (typed === null) return
-    if (typed.trim() !== name.trim()) { setDangerMsg("Le nom saisi ne correspond pas — suppression annulee."); return }
+    if (typed.trim() !== name.trim()) {
+      setDangerMsg("Le nom saisi ne correspond pas — suppression annulée.")
+      return
+    }
     const r = await fetch("/api/tenants/" + tenantId, { method: "DELETE" })
     if (r.ok) {
       if (typeof window !== "undefined") window.localStorage.removeItem("practice-id")
@@ -134,7 +137,10 @@ export default function SettingsPage() {
 
       {showNew ? (
         <Card>
-          <CardHeader><CardTitle className="text-base">Créer un cabinet</CardTitle><CardDescription>Un nouvel agent prêt en une minute</CardDescription></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">Créer un cabinet</CardTitle>
+            <CardDescription>Un nouvel agent prêt en une minute</CardDescription>
+          </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-2">
@@ -234,47 +240,25 @@ export default function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Données &amp; conformité RGPD</CardTitle>
-          <CardDescription>Vos appels contiennent des données de santé — la conformité est intégrée</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3 text-sm">
-          <ul className="list-inside list-disc space-y-1.5 text-muted-foreground">
-            <li>L&apos;agent annonce l&apos;enregistrement au début de chaque appel (consentement, art. L.226-1 Code pénal / RGPD).</li>
-            <li>Transcriptions et enregistrements peuvent contenir des données de santé (art. 9 RGPD) — accès limité à votre équipe.</li>
-            <li>Effacement : supprimez un appel depuis la page Appels (bouton corbeille) — droit à l&apos;effacement.</li>
-            <li>Portabilité : exportez toutes les données du cabinet ci-dessous.</li>
-            <li>Conservation : définissez votre durée de rétention (recommandé : 12 mois pour un cabinet) et purgez ensuite.</li>
-          </ul>
-          <div className="flex flex-wrap items-center gap-3">
-            <a href={"/api/tenants/" + tenantId + "/export"} download>
-              <Button variant="outline" size="sm"><Download className="size-3.5" /> Exporter toutes mes données (JSON)</Button>
-            </a>
-            <span className="text-xs text-muted-foreground">Voir docs/rgpd-product.md pour le registre et les bonnes pratiques.</span>
-          </div>
-
-      <Card>
-        <CardHeader>
           <CardTitle className="text-base">Agenda connecté</CardTitle>
           <CardDescription>Les rendez-vous réservés par l&apos;agent peuvent être créés directement dans votre calendrier</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 text-sm">
           {cal === null ? (
-            <Skeleton className="h-16 w-full" />
+            <Skeleton className="h-14 w-full" />
           ) : cal.configured ? (
             <div className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3">
               <span className="size-2 rounded-full bg-emerald-500" />
-              <p>
-                Connecté à Google Agenda{cal.calendar_id ? " (" + cal.calendar_id + ")" : ""} — chaque nouveau rendez-vous y est créé automatiquement.
-              </p>
+              <p>Connecté à Google Agenda{cal.calendar_id ? " (" + cal.calendar_id + ")" : ""} — chaque nouveau rendez-vous y est créé automatiquement.</p>
             </div>
           ) : (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
               <div className="flex items-center gap-2 rounded-xl border p-3">
                 <span className="size-2 rounded-full bg-amber-500" />
                 <p>Non connecté — les rendez-vous restent dans le tableau de bord.</p>
               </div>
               <ol className="list-inside list-decimal space-y-1 text-muted-foreground">
-                <li>Créez un compte de service Google (docs/calendar-setup.md, 5 minutes).</li>
+                <li>Créez un compte de service Google (docs/calendar-setup.md, ~5 minutes).</li>
                 <li>Partagez votre agenda avec l&apos;adresse du compte de service.</li>
                 <li>Ajoutez GOOGLE_CALENDAR_CREDENTIALS et GOOGLE_CALENDAR_ID dans agent/.env, puis redémarrez l&apos;agent.</li>
               </ol>
@@ -283,13 +267,27 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
-      <Card className="border-red-500/30">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-base text-red-600 dark:text-red-400">Données &amp; rétention</CardTitle>
-          <CardDescription>Effacement et portabilité — vos droits et ceux de vos patients</CardDescription>
+          <CardTitle className="text-base">Données &amp; conformité RGPD</CardTitle>
+          <CardDescription>Vos appels contiennent des données de santé — la conformité est intégrée</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-3 text-sm">
-          <p className="text-muted-foreground">Conseil de conservation : 12 mois pour un cabinet. La purge est définitive (audio compris).</p>
+          <ul className="list-inside list-disc space-y-1.5 text-muted-foreground">
+            <li>L&apos;agent annonce l&apos;enregistrement au début de chaque appel (consentement).</li>
+            <li>Transcriptions et enregistrements peuvent contenir des données de santé (art. 9 RGPD).</li>
+            <li>Effacement : supprimez un appel depuis la page Appels, ou purgez ci-dessous.</li>
+            <li>Portabilité : exportez toutes les données du cabinet ci-dessous.</li>
+            <li>Conservation recommandée : 12 mois — purgez ensuite.</li>
+          </ul>
+          <div className="flex flex-wrap items-center gap-3">
+            <a href={"/api/tenants/" + tenantId + "/export"} download>
+              <Button variant="outline" size="sm"><Download className="size-3.5" /> Exporter toutes mes données (JSON)</Button>
+            </a>
+            <span className="text-xs text-muted-foreground">Détails : docs/rgpd-product.md</span>
+          </div>
+          <Separator />
+          <p className="text-muted-foreground">Rétention : la purge est définitive (audio compris).</p>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" size="sm" onClick={() => purgeCalls(30)}>Supprimer les appels de plus de 30 jours</Button>
             <Button variant="outline" size="sm" onClick={() => purgeCalls(0)}>Supprimer tous les appels enregistrés</Button>
