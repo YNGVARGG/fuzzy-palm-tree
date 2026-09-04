@@ -1,0 +1,922 @@
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+[browser] Encountered two children with the same key, `1000`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. 
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "hooks" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]/activity" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]/activity" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]/activity" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (11728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::read", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::read", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "tsconfig.json" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 26 tasks
+
+Caused by:
+    0: Looking up typed data for 26 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000017.meta
+    2: Unable to open static sorted file 00000013.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000013.sst
+    4: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (17824) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 36 tasks
+
+Caused by:
+    0: Looking up typed data for 36 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000104.meta
+    2: Unable to open static sorted file 00000100.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000100.sst
+    4: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (11728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 26 tasks
+
+Caused by:
+    0: Looking up typed data for 26 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000017.meta
+    2: Unable to open static sorted file 00000013.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000013.sst
+    4: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (17824) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 36 tasks
+
+Caused by:
+    0: Looking up typed data for 36 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000104.meta
+    2: Unable to open static sorted file 00000100.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000100.sst
+    4: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the file specified. (os error 2)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "components" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "lib" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:197:17:
+Failed to restore task data (corrupted database or bug): Meta for TaskId 39)
+
+Caused by:
+    0: Looking up task storage for TaskId 39 from database failed
+    1: Unable to open static sorted file referenced from 00000104.meta
+    2: Unable to open static sorted file 00000100.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000100.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (11728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17824) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (3852) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants/[id]/status" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (11728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000173.meta
+    2: Unable to open static sorted file 00000167.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000167.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000173.meta
+    2: Unable to open static sorted file 00000167.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000167.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15088) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 127 tasks
+
+Caused by:
+    0: Looking up typed data for 127 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000017.meta
+    2: Unable to open static sorted file 00000013.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000013.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 20 tasks
+
+Caused by:
+    0: Looking up typed data for 20 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000113.meta
+    2: Unable to open static sorted file 00000107.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000107.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 20 tasks
+
+Caused by:
+    0: Looking up typed data for 20 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000113.meta
+    2: Unable to open static sorted file 00000107.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000107.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17824) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "node_modules/.pnpm" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (11728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7412) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "node_modules/.pnpm" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "node_modules/.pnpm" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "app/api/tenants" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (12032) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "node_modules/.pnpm" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (18280) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000173.meta
+    2: Unable to open static sorted file 00000167.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000167.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (7728) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "node_modules/.pnpm" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "node_modules/.pnpm" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (19012) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000173.meta
+    2: Unable to open static sorted file 00000167.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000167.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (17804) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (15844) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000173.meta
+    2: Unable to open static sorted file 00000167.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000167.sst
+    4: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:619:14:
+Failed to lookup task ids: Looking up task id for CachedTaskType { native_fn: NativeFunction { name: "<DiskFileSystem as FileSystem>::raw_read_dir", global_name: "<turbo_tasks_fs::DiskFileSystem as dyn turbo_tasks_fs::FileSystem>::raw_read_dir", .. }, this: Some(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), arg: (FileSystemPath { fs: ResolvedVc(RawVc::TaskCell(9, "turbo_tasks_fs::DiskFileSystem#0")), path: "" },) } from database failed
+
+Caused by:
+    0: Unable to open static sorted file referenced from 00000012.meta
+    1: Unable to open static sorted file 00000008.sst
+    2: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000008.sst
+    3: The system cannot find the path specified. (os error 3)
+
+thread 'tokio-runtime-worker' (10772) panicked at turbopack\crates\turbo-tasks-backend\src\backend\operation\mod.rs:225:17:
+Failed to restore task data (corrupted database or bug): Meta for batch of 3 tasks
+
+Caused by:
+    0: Looking up typed data for 3 tasks from database failed
+    1: Unable to open static sorted file referenced from 00000173.meta
+    2: Unable to open static sorted file 00000167.sst
+    3: Failed to open SST file C:\Users\yonat\Documents\Project\dashboard\.next\dev\cache/turbopack\ee6e79b1\00000167.sst
+    4: The system cannot find the path specified. (os error 3)
+Persisting failed: Unable to write SST file 00000424.sst
+
+Caused by:
+    The system cannot find the path specified. (os error 3)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+The system cannot find the path specified.

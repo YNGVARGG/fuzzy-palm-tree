@@ -118,6 +118,20 @@ class BusinessStore:
         _log_event("appointment_booked", booking)
         return booking
 
+    def record_escalation(self, customer_name: str, phone: str, reason: str, details: str) -> dict:
+        entry = {
+            "message_id": self._next_message_id,
+            "kind": "escalation",
+            "tenant": self.tenant["id"],
+            "customer_name": customer_name or "Appelant",
+            "phone": phone or "—",
+            "message": f"[{reason}] {details}",
+        }
+        self._next_message_id += 1
+        self.messages.append(entry)
+        _log_event("escalation", entry)
+        return entry
+
     def record_message(self, customer_name: str, phone: str, message: str) -> dict:
         entry = {
             "message_id": self._next_message_id,
@@ -264,6 +278,39 @@ async def take_message(
 # a new turn, cancel the in-flight end_call, and leave the caller saying goodbye
 # twice.
 @tool_options(cancel_on_interruption=False)
+async def escalate_to_staff(
+    params: FunctionCallParams,
+    reason: str,
+    details: str,
+    customer_name: str | None = None,
+    phone: str | None = None,
+):
+    """Escalate to the clinical/office team when a call needs a human.
+
+    Use this — never guess — when the caller asks for MEDICAL ADVICE, reports severe
+    symptoms or pain, asks about complex insurance/billing cases, makes a complaint,
+    or requests something outside the agent's rules. The team receives an urgent task
+    with this context and calls the patient back.
+
+    Args:
+        reason: Short category, e.g. 'avis médical demandé', 'douleur sévère', 'litige facturation'.
+        details: What the caller said, as precisely as possible.
+        customer_name: The caller's name, if known.
+        phone: The caller's phone number, if known.
+    """
+    store: BusinessStore = params.app_resources
+    entry = store.record_escalation(customer_name, phone, reason, details)
+    logger.info(f"escalate_to_staff({reason=}) -> {entry}")
+    promise = (
+        "Un membre de l'équipe clinique rappelle très rapidement — restez joignable."
+        if store.tenant.get("language") == "fr"
+        else "A clinical team member will call back very soon — please stay reachable."
+    )
+    await params.result_callback(
+        {"success": True, "message_id": entry["message_id"], "promise": promise}
+    )
+
+
 async def end_call(params: FunctionCallParams):
     """End the call and hang up.
 
@@ -279,4 +326,4 @@ async def end_call(params: FunctionCallParams):
     await params.llm.push_frame(EndWorkerFrame())
 
 
-TOOLS = [answer_question, search_documents, book_appointment, take_message, end_call]
+TOOLS = [answer_question, search_documents, book_appointment, take_message, escalate_to_staff, end_call]

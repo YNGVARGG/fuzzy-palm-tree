@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useTheme } from "next-themes"
-import { CalendarCheck, FileText, LayoutDashboard, Moon, PhoneCall, Settings, Sun } from "lucide-react"
+import { CalendarCheck, FileText, LayoutDashboard, Moon, PhoneCall, Settings, Sparkles, Sun } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -33,7 +33,7 @@ const NAV = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const { resolvedTheme, setTheme } = useTheme()
-  const { tenants, tenantId, tenant, setTenantId, agentUp } = usePractice()
+  const { tenants, tenantId, tenant, setTenantId, agentUp, demoEnabled, setDemoEnabled } = usePractice()
 
   return (
     <div className="flex min-h-svh">
@@ -110,6 +110,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 {tenants.map((t) => (<SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>))}
               </SelectContent>
             </Select>
+          ) : null}
+          {demoEnabled ? (
+            <Button variant="secondary" size="sm" className="gap-1.5" onClick={() => setDemoEnabled(false)}>
+              <Sparkles className="size-3.5" /> Démo
+            </Button>
           ) : null}
           <Badge variant={agentUp ? "default" : "secondary"} className="hidden sm:inline-flex">
             {agentUp ? "Agent en ligne" : "Agent hors ligne"}

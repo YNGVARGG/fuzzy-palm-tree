@@ -145,3 +145,4 @@
  GET /api/tenants/french-demo/calls 200 in 100ms (next.js: 74ms, application-code: 26ms)
  GET /api/tenants/french-demo/documents 200 in 154ms (next.js: 132ms, application-code: 21ms)
  GET /api/tenants/french-demo/status 404 in 254ms (next.js: 20ms, application-code: 234ms)
+ ELIFECYCLE  Command failed with exit code 1.

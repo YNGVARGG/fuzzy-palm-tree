@@ -23,7 +23,7 @@ if (-not (Get-NetTCPConnection -LocalPort $dashPort -State Listen -ErrorAction S
     Write-Host 'Starting dashboard...' -ForegroundColor Cyan
     $pnpm = (Get-Command pnpm.cmd -ErrorAction SilentlyContinue).Source
     if (-not $pnpm) { throw 'pnpm not found - install it or start the dashboard manually (cd dashboard; pnpm dev)' }
-    $dashProc = Start-Process -FilePath $pnpm -ArgumentList 'dev','--port',([string]$dashPort) -WorkingDirectory (Join-Path $root 'dashboard') -RedirectStandardOutput (Join-Path $logDir 'dashboard.log') -RedirectStandardError (Join-Path $logDir 'dashboard.err.log') -WindowStyle Hidden -PassThru
+    $dashProc = Start-Process -FilePath $pnpm -ArgumentList 'dev','--port',([string]$dashPort) -WorkingDirectory (Join-Path $root 'practice') -RedirectStandardOutput ((Join-Path $logDir 'practice.log')) -RedirectStandardError ((Join-Path $logDir 'practice.err.log')) -WindowStyle Hidden -PassThru
     $dashProc.Id | Out-File (Join-Path $logDir 'dashboard.pid') -Encoding utf8
 } else { Write-Host ('Dashboard already running on :' + $dashPort) -ForegroundColor DarkGray }
 
