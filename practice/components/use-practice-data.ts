@@ -11,6 +11,9 @@ export type CallItem = {
   message_count: number
   has_audio: boolean
   messages?: { role: string; content: string }[]
+  type?: string
+  patient?: string
+  recording_refused?: boolean
 }
 
 export type PracticeData = {

@@ -43,7 +43,7 @@ from pipecat.workers.runner import WorkerRunner
 
 from business_context import build_system_instruction
 from business_tools import TOOLS, BusinessStore
-from call_recorder import new_call_dir, save_audio, save_summary, save_transcript, summarize
+from call_recorder import new_call_dir, save_audio, save_meta, save_summary, save_transcript, summarize
 from tenant import load_tenant, resolve_tenant_for_call
 
 load_dotenv(override=True)
@@ -256,8 +256,9 @@ async def _capture_call(tenant: dict, context, audiobuffer) -> None:
             save_audio(call_dir, audio, audiobuffer.sample_rate, audiobuffer.num_channels)
         except Exception:
             logger.exception("Could not save call audio")
-        summary = await asyncio.to_thread(summarize, messages)
-        save_summary(call_dir, summary)
+        meta = await asyncio.to_thread(summarize, messages)
+        save_summary(call_dir, meta.get("resume", ""))
+        save_meta(call_dir, {k: meta.get(k) for k in ("type", "patient", "recording_refused")})
         logger.info(f"Call captured: {call_dir} — {len(messages)} messages, {len(audio or b'')} audio bytes")
     except Exception:
         logger.exception("Could not capture call")

@@ -45,6 +45,10 @@ def save_summary(call_dir: Path, summary: str) -> None:
     (call_dir / "summary.txt").write_text(summary, encoding="utf-8")
 
 
+def save_meta(call_dir: Path, meta: dict) -> None:
+    (call_dir / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
 def save_audio(call_dir: Path, audio: bytes, sample_rate: int, num_channels: int) -> None:
     if not audio:
         return
@@ -67,34 +71,47 @@ def _render_transcript(messages: list[dict]) -> str:
     return "\n".join(lines)[:12000]
 
 
-def summarize(messages: list[dict]) -> str:
+def summarize(messages: list[dict]) -> dict:
     """Generate a short French after-call summary using the configured LLM."""
     from openai import OpenAI  # local import: only needed at call end
 
     api_key = os.getenv("OPENAI_API_KEY", "")
     if not api_key:
-        return "Résumé indisponible (pas de clé LLM)."
+        return {"resume": "Résumé indisponible (pas de clé LLM).", "type": "inconnu", "patient": ""}
     try:
         client = OpenAI(api_key=api_key, base_url=os.getenv("LLM_BASE_URL") or None)
         transcript = _render_transcript(messages)
         if not transcript.strip():
-            return "Appel sans échange verbal."
+            return {"resume": "Appel sans échange verbal.", "type": "raccrochage", "patient": ""}
         resp = client.chat.completions.create(
             model=os.getenv("OPENAI_MODEL", "mistral-small-latest"),
             messages=[
                 {
                     "role": "system",
                     "content": (
-                        "Tu rédiges un résumé d'appel téléphonique en français, 3-4 phrases : "
-                        "qui a appelé, ce qu'il voulait, ce qui a été fait (rendez-vous pris, message), "
-                        "et toute action à suivre pour l'équipe."
+                        "Analyse cet appel téléphonique de cabinet dentaire et réponds UNIQUEMENT "
+                        "par un JSON valide avec ces champs : resume (3-4 phrases en français : qui a appelé, "
+                        "ce qu'il voulait, ce qui a été fait, action à suivre), type (une de : rdv, message, "
+                        "question, urgence, escalation, raccrochage), patient (nom si connu sinon chaîne vide)."
                     ),
                 },
                 {"role": "user", "content": "Voici la transcription de l'appel :\n" + transcript},
             ],
-            temperature=0.2,
-            max_tokens=250,
+            temperature=0.1,
+            max_tokens=300,
+            response_format={"type": "json_object"},
         )
-        return (resp.choices[0].message.content or "Résumé indisponible.").strip()
+        raw = (resp.choices[0].message.content or "{}").strip()
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            data = {}
+        refused = any("pas enregistr" in str(m.get("content") or "").lower() for m in messages)
+        return {
+            "resume": str(data.get("resume") or raw)[:800],
+            "type": str(data.get("type") or "inconnu")[:30],
+            "patient": str(data.get("patient") or "")[:80],
+            "recording_refused": refused,
+        }
     except Exception as e:
-        return f"Résumé indisponible ({type(e).__name__})."
+        return {"resume": f"Résumé indisponible ({type(e).__name__}).", "type": "inconnu", "patient": ""}

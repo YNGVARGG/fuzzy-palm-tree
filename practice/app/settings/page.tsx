@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Save } from "lucide-react"
+import { Download, Save } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -199,6 +199,28 @@ export default function SettingsPage() {
           <div className="flex items-center gap-4">
             <Button onClick={save}><Save className="size-4" /> Enregistrer</Button>
             {msg ? <p className="text-sm text-emerald-600 dark:text-emerald-400">{msg}</p> : null}
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Données &amp; conformité RGPD</CardTitle>
+          <CardDescription>Vos appels contiennent des données de santé — la conformité est intégrée</CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3 text-sm">
+          <ul className="list-inside list-disc space-y-1.5 text-muted-foreground">
+            <li>L&apos;agent annonce l&apos;enregistrement au début de chaque appel (consentement, art. L.226-1 Code pénal / RGPD).</li>
+            <li>Transcriptions et enregistrements peuvent contenir des données de santé (art. 9 RGPD) — accès limité à votre équipe.</li>
+            <li>Effacement : supprimez un appel depuis la page Appels (bouton corbeille) — droit à l&apos;effacement.</li>
+            <li>Portabilité : exportez toutes les données du cabinet ci-dessous.</li>
+            <li>Conservation : définissez votre durée de rétention (recommandé : 12 mois pour un cabinet) et purgez ensuite.</li>
+          </ul>
+          <div className="flex flex-wrap items-center gap-3">
+            <a href={"/api/tenants/" + tenantId + "/export"} download>
+              <Button variant="outline" size="sm"><Download className="size-3.5" /> Exporter toutes mes données (JSON)</Button>
+            </a>
+            <span className="text-xs text-muted-foreground">Voir docs/rgpd-product.md pour le registre et les bonnes pratiques.</span>
           </div>
         </CardContent>
       </Card>

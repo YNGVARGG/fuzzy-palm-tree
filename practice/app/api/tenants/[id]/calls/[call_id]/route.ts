@@ -17,3 +17,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
+
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string; call_id: string }> }) {
+  const { id, call_id } = await params
+  if (!SAFE_ID.test(call_id)) return NextResponse.json({ error: "bad call id" }, { status: 400 })
+  const dir = path.join(CALLS_DIR, id, call_id)
+  if (!fs.existsSync(dir)) return NextResponse.json({ error: "not found" }, { status: 404 })
+  fs.rmSync(dir, { recursive: true, force: true })
+  return NextResponse.json({ deleted: true })
+}

@@ -28,6 +28,9 @@ export type CallInfo = {
   summary: string
   message_count: number
   has_audio: boolean
+  type?: string
+  patient?: string
+  recording_refused?: boolean
 }
 
 export function listCalls(tenantId: string): CallInfo[] {
@@ -50,11 +53,28 @@ export function listCalls(tenantId: string): CallInfo[] {
           message_count = 0
         }
       }
+      let type: string | undefined
+      let patient: string | undefined
+      let recording_refused: boolean | undefined
+      const mPath = path.join(base, "meta.json")
+      if (fs.existsSync(mPath)) {
+        try {
+          const meta = JSON.parse(fs.readFileSync(mPath, "utf8"))
+          type = meta.type
+          patient = meta.patient
+          recording_refused = meta.recording_refused
+        } catch {
+          /* ignore */
+        }
+      }
       return {
         id: d.name,
         summary,
         message_count,
         has_audio: fs.existsSync(path.join(base, "audio.wav")),
+        type,
+        patient,
+        recording_refused,
       }
     })
     .sort((a, b) => b.id.localeCompare(a.id))
