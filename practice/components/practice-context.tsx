@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useState } from "react"
 import type { Tenant, TenantSummary } from "@/lib/types"
+import { usePathname } from "next/navigation"
 
 type PracticeCtx = {
   tenants: TenantSummary[]
@@ -18,6 +19,7 @@ type PracticeCtx = {
 const Ctx = createContext<PracticeCtx | null>(null)
 
 export function PracticeProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
   const [tenants, setTenants] = useState<TenantSummary[]>([])
   const [tenantId, setTenantIdState] = useState<string>("")
   const [tenant, setTenant] = useState<Tenant | null>(null)
@@ -26,9 +28,12 @@ export function PracticeProvider({ children }: { children: React.ReactNode }) {
   const [demoEnabled, setDemoEnabledState] = useState(false)
 
   useEffect(() => {
-    fetch("/api/tenants")
-      .then((r) => r.json())
+    if (pathname === "/login" || pathname === "/schedule") return
+    const controller = new AbortController()
+    fetch("/api/tenants", { signal: controller.signal })
+      .then((r) => { if (!r.ok) throw new Error("Chargement impossible"); return r.json() })
       .then((d) => {
+        if (controller.signal.aborted) return
         setTenants(d.tenants ?? [])
         if (typeof window !== "undefined" && window.localStorage.getItem("practice-demo") === "1") setDemoEnabledState(true)
         const stored = typeof window !== "undefined" ? window.localStorage.getItem("practice-id") : null
@@ -37,7 +42,8 @@ export function PracticeProvider({ children }: { children: React.ReactNode }) {
         setTenantIdState(picked)
       })
       .catch(() => undefined)
-  }, [])
+    return () => controller.abort()
+  }, [pathname === "/login", pathname === "/schedule"])
 
   const refresh = useCallback(() => setRefreshTick((n) => n + 1), [])
 
@@ -47,20 +53,24 @@ export function PracticeProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const setTenantId = useCallback((id: string) => {
+    setTenant(null)
+    setAgentUp(null)
     setTenantIdState(id)
     if (typeof window !== "undefined") window.localStorage.setItem("practice-id", id)
   }, [])
 
   useEffect(() => {
     if (!tenantId) return
-    fetch("/api/tenants/" + tenantId)
-      .then((r) => r.json())
-      .then(setTenant)
+    const controller = new AbortController()
+    fetch("/api/tenants/" + tenantId, { signal: controller.signal })
+      .then((r) => { if (!r.ok) throw new Error("Chargement impossible"); return r.json() })
+      .then((data) => { if (!controller.signal.aborted) setTenant(data) })
       .catch(() => undefined)
-    fetch("/api/tenants/" + tenantId + "/status")
+    fetch("/api/tenants/" + tenantId + "/status", { signal: controller.signal })
       .then((r) => r.json())
-      .then((d) => setAgentUp(Boolean(d.up)))
-      .catch(() => setAgentUp(false))
+      .then((d) => { if (!controller.signal.aborted) setAgentUp(Boolean(d.up)) })
+      .catch(() => { if (!controller.signal.aborted) setAgentUp(false) })
+    return () => controller.abort()
   }, [tenantId, refreshTick])
 
   return (

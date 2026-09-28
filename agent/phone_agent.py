@@ -27,7 +27,6 @@ from pipecat.processors.aggregators.llm_response_universal import (
     LLMContextAggregatorPair,
     LLMUserAggregatorParams,
 )
-from pipecat.processors.audio.audio_buffer_processor import AudioBufferProcessor
 from pipecat.runner.types import RunnerArguments
 from pipecat.runner.utils import create_transport
 from pipecat.serializers.twilio import TwilioFrameSerializer
@@ -43,7 +42,7 @@ from pipecat.workers.runner import WorkerRunner
 
 from business_context import build_system_instruction
 from business_tools import TOOLS, BusinessStore
-from call_recorder import new_call_dir, save_audio, save_meta, save_summary, save_transcript, summarize
+from call_recorder import new_call_dir, save_operational_capture
 from tenant import load_tenant, resolve_tenant_for_call
 
 load_dotenv(override=True)
@@ -81,7 +80,9 @@ def build_llm(tenant: dict) -> OpenAILLMService:
     such as gpt-4.1-mini — STT (Deepgram Flux) and TTS (Cartesia) handle
     French fine either way.
     """
-    service = os.getenv("LLM_SERVICE", "phonellm").strip().lower()
+    service = os.getenv("LLM_SERVICE", "openai" if tenant.get("language") != "en" else "phonellm").strip().lower()
+    if service == "phonellm" and tenant.get("language") != "en":
+        raise RuntimeError("PhoneLLM Alpha 1 is configured for English only. Select a validated multilingual LLM for this practice.")
     logger.info(f"LLM service: {service}")
 
     if service == "openai":
@@ -141,6 +142,8 @@ def build_tts(tenant: dict) -> DeepgramFluxTTSService | CartesiaTTSService:
 
     if service != "deepgram":
         raise RuntimeError(f"Unknown TTS_SERVICE: {service!r} (expected 'cartesia' or 'deepgram')")
+    if tenant.get("language") != "en" and not os.getenv("TTS_VOICE"):
+        raise RuntimeError("Select and validate a TTS_VOICE for this practice language before using Deepgram TTS.")
 
     # Flux streams LLM tokens straight to synthesis
     return DeepgramFluxTTSService(
@@ -184,8 +187,10 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
         user_params=LLMUserAggregatorParams(vad_analyzer=SileroVADAnalyzer()),
     )
 
-    # Call recording buffer (captures the full audio of the session)
-    audiobuffer = AudioBufferProcessor()
+    # Retain only operational outcomes until a verified consent workflow exists.
+    call_dir = new_call_dir(tenant["id"])
+    store = BusinessStore(tenant)
+    store.call_id = call_dir.name
 
     # Pipeline — assembled from reusable components
     pipeline = Pipeline(
@@ -196,7 +201,6 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
             llm,
             tts,
             transport.output(),
-            audiobuffer,
             assistant_aggregator,
         ]
     )
@@ -211,7 +215,7 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
         pipeline,
         params=PipelineParams(**params_kwargs),
         # Per-call business memory, shared with the tool handlers
-        app_resources=BusinessStore(tenant),
+        app_resources=store,
     )
 
     runner = WorkerRunner(handle_sigint=runner_args.handle_sigint)
@@ -220,7 +224,6 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
 
     @transport.event_handler("on_client_connected")
     async def on_client_connected(transport, client):
-        await audiobuffer.start_recording()
         # Kick off the conversation, in the tenant's language
         # NOTE: user role (not "developer") — Groq/Qwen rejects a first turn with no
         # user message ("No user query found in messages").
@@ -237,31 +240,13 @@ async def run_bot(transport: BaseTransport, runner_args: RunnerArguments, tenant
         logger.info("Client disconnected")
         await runner.cancel()
 
-    await runner.run()
-
-    # ---- After-call capture: transcript + summary + audio ----
-    await _capture_call(tenant, context, audiobuffer)
-
-
-async def _capture_call(tenant: dict, context, audiobuffer) -> None:
-    """After a session ends: save transcript, audio, and an LLM summary."""
-    import asyncio
-
     try:
-        call_dir = new_call_dir(tenant["id"])
-        messages = list(context.messages)
-        save_transcript(call_dir, messages)
+        await runner.run()
+    finally:
         try:
-            audio = audiobuffer.merge_audio_buffers()
-            save_audio(call_dir, audio, audiobuffer.sample_rate, audiobuffer.num_channels)
+            save_operational_capture(call_dir, store.appointments, store.messages)
         except Exception:
-            logger.exception("Could not save call audio")
-        meta = await asyncio.to_thread(summarize, messages)
-        save_summary(call_dir, meta.get("resume", ""))
-        save_meta(call_dir, {k: meta.get(k) for k in ("type", "patient", "recording_refused")})
-        logger.info(f"Call captured: {call_dir} — {len(messages)} messages, {len(audio or b'')} audio bytes")
-    except Exception:
-        logger.exception("Could not capture call")
+            logger.error("Could not save operational call metadata")
 
 
 def _daily_params():
@@ -297,7 +282,7 @@ async def bot(runner_args: RunnerArguments):
     # Which company is this call for?
     call_data = runner_args.call_data
     if call_data:
-        logger.info(f"Call {call_data.call_id} from {getattr(call_data, 'from_number', 'unknown')}")
+        logger.info("Incoming telephony call")
     tenant_id = resolve_tenant_for_call(call_data)
     tenant = load_tenant(tenant_id)
     logger.info(f"Tenant resolved: {tenant_id} — {tenant['name']} ({tenant.get('language', 'en')})")

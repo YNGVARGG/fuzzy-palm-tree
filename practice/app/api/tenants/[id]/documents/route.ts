@@ -1,3 +1,4 @@
+import { withAccess } from "@/lib/route-access"
 import { NextResponse } from "next/server"
 import fs from "node:fs"
 import path from "node:path"
@@ -21,7 +22,7 @@ function indexInfo(id: string) {
   }
 }
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function GETImpl(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     readTenant(id)
@@ -38,7 +39,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   }
 }
 
-export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function POSTImpl(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     readTenant(id)
@@ -68,3 +69,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
+
+export const GET = withAccess(GETImpl)
+
+export const POST = withAccess(POSTImpl)

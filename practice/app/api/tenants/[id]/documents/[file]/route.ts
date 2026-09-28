@@ -1,10 +1,11 @@
+import { withAccess } from "@/lib/route-access"
 import { NextResponse } from "next/server"
 import fs from "node:fs"
 import path from "node:path"
 import { execFileSync } from "node:child_process"
 import { AGENT_DIR, TENANTS_DIR } from "@/lib/server-data"
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string; file: string }> }) {
+async function GETImpl(_req: Request, { params }: { params: Promise<{ id: string; file: string }> }) {
   const { id, file } = await params
   const name = path.basename(decodeURIComponent(file))
   const p = path.join(TENANTS_DIR, id, "docs", name)
@@ -14,7 +15,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   })
 }
 
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string; file: string }> }) {
+async function DELETEImpl(_req: Request, { params }: { params: Promise<{ id: string; file: string }> }) {
   const { id, file } = await params
   const name = path.basename(decodeURIComponent(file))
   const p = path.join(TENANTS_DIR, id, "docs", name)
@@ -31,3 +32,7 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
   }
   return NextResponse.json({ deleted: true, indexed })
 }
+
+export const GET = withAccess(GETImpl)
+
+export const DELETE = withAccess(DELETEImpl)

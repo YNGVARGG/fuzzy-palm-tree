@@ -1,140 +1,35 @@
 "use client"
-
-import { useState } from "react"
-import { BellRing, PhoneCall, Repeat, UserPlus } from "lucide-react"
-
-import { Badge } from "@/components/ui/badge"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { BellRing, Plus, Play, Pause, ShieldCheck, Ban } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Switch } from "@/components/ui/switch"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { usePractice } from "@/components/practice-context"
-import { usePracticeData } from "@/components/use-practice-data"
-import type { ActivityEvent } from "@/lib/types"
-
-const REMINDER_STEPS = [
-  { when: "J-7", action: "Appel du patient pour confirmer", detail: "Si pas de réponse → SMS de confirmation" },
-  { when: "J-1", action: "Nouvel appel", detail: "Si pas de réponse → SMS de rappel" },
-]
-const REACTIVATION_STEPS = [
-  { when: "Jour 0", action: "Appel pour réactiver / replanifier", detail: "Proposer un rendez-vous de contrôle" },
-  { when: "Jour +3", action: "Rappel téléphonique", detail: "Si pas de réponse" },
-  { when: "Jour +6", action: "SMS de relance", detail: "Si toujours pas de réponse" },
-]
-
-export default function CampaignsPage() {
-  const { tenant } = usePractice()
-  const data = usePracticeData()
-  const [reminder, setReminder] = useState(true)
-  const [reactivation, setReactivation] = useState(false)
-
-  const bookings = data.bookings as ActivityEvent[]
-  const today = new Date().toISOString().slice(0, 10)
-  const dueReminders = bookings.filter((b) => {
-    const d = String(b.date)
-    if (d < today) return false
-    const diff = Math.floor((new Date(d + "T00:00:00").getTime() - Date.now()) / 86400000)
-    return diff <= 7
-  })
-
-  const lapsed = data.demo
-    ? [
-        { name: "Marie Lefebvre", last: "il y a 14 mois", service: "Contrôle annuel" },
-        { name: "Paul Girard", last: "il y a 18 mois", service: "Détartrage" },
-        { name: "Isabelle Roux", last: "il y a 13 mois", service: "Contrôle" },
-      ]
-    : []
-
-  return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="font-heading text-2xl font-semibold tracking-tight">Campagnes</h1>
-        <p className="text-sm text-muted-foreground">Relances automatiques par téléphone et SMS pour réduire les absences et réactiver les patients</p>
-      </div>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <div className="flex items-center gap-2">
-            <BellRing className="size-4 text-primary" />
-            <div>
-              <CardTitle className="text-base">Rappels de rendez-vous</CardTitle>
-              <CardDescription>Confirmez chaque rendez-vous à J-7 et J-1 — réduction des absences</CardDescription>
-            </div>
-          </div>
-          <Switch checked={reminder} onCheckedChange={setReminder} />
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <ol className="flex flex-col gap-2">
-            {REMINDER_STEPS.map((s) => (
-              <li key={s.when} className="flex gap-3 rounded-xl border p-3">
-                <span className="font-heading text-sm font-semibold text-primary">{s.when}</span>
-                <div>
-                  <p className="text-sm font-medium">{s.action}</p>
-                  <p className="text-xs text-muted-foreground">{s.detail}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          {dueReminders.length > 0 ? (
-            <div>
-              <p className="mb-2 text-sm font-medium">À rappeler dans les 7 prochains jours ({dueReminders.length})</p>
-              <div className="flex flex-col gap-1.5">
-                {dueReminders.slice(0, 5).map((b) => (
-                  <div key={String(b.reference)} className="flex items-center justify-between rounded-lg bg-muted px-3 py-2 text-sm">
-                    <span className="font-medium">{String(b.customer_name)}</span>
-                    <span className="text-xs text-muted-foreground">{String(b.service)} · {String(b.date)} {String(b.time)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">Aucun rendez-vous dans les 7 prochains jours.</p>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0">
-          <div className="flex items-center gap-2">
-            <Repeat className="size-4 text-primary" />
-            <div>
-              <CardTitle className="text-base">Réactivation des patients inactifs</CardTitle>
-              <CardDescription>Recontactez les patients qui ne sont pas revenus depuis plus de 12 mois</CardDescription>
-            </div>
-          </div>
-          <Switch checked={reactivation} onCheckedChange={setReactivation} />
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <ol className="flex flex-col gap-2">
-            {REACTIVATION_STEPS.map((s) => (
-              <li key={s.when} className="flex gap-3 rounded-xl border p-3">
-                <span className="font-heading text-sm font-semibold text-primary">{s.when}</span>
-                <div>
-                  <p className="text-sm font-medium">{s.action}</p>
-                  <p className="text-xs text-muted-foreground">{s.detail}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          {lapsed.length > 0 ? (
-            <div>
-              <p className="mb-2 text-sm font-medium">Patients à réactiver ({lapsed.length})</p>
-              <div className="flex flex-col gap-1.5">
-                {lapsed.map((p) => (
-                  <div key={p.name} className="flex items-center justify-between rounded-lg bg-muted px-3 py-2 text-sm">
-                    <span className="font-medium">{p.name}</span>
-                    <span className="text-xs text-muted-foreground">{p.service} · dernière visite {p.last}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">Aucun patient inactif détecté (en production, ceci provient de votre logiciel de gestion).</p>
-          )}
-          <p className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-xs text-muted-foreground">
-            L&apos;envoi réel des appels et SMS nécessite la ligne téléphonique (Twilio/Telnyx) — feuille de route. Ces séquences définissent exactement le comportement une fois connectée.
-          </p>
-        </CardContent>
-      </Card>
-    </div>
-  )
+import type { Campaign } from "@/lib/campaign-store"
+type Recipient={id:string;phone:string;appointment_at:string;due_at:string;status:string}
+const template="Bonjour, rappel de votre rendez-vous au cabinet le {date}. Pour toute modification, contactez le cabinet."
+const labels:Record<string,string>={draft:'Brouillon',ready:'Simulation prête',paused:'En pause',pending:'À traiter',simulated:'Simulé',suppressed:'Exclu'}
+export default function CampaignsPage(){
+ const {tenantId,demoEnabled}=usePractice()
+ const [campaigns,setCampaigns]=useState<Campaign[]>([]),[selected,setSelected]=useState(''),[recipients,setRecipients]=useState<Recipient[]>([])
+ const [name,setName]=useState('Rappels de rendez-vous'),[message,setMessage]=useState(template)
+ const [phone,setPhone]=useState(''),[appointment,setAppointment]=useState(''),[due,setDue]=useState(''),[allowed,setAllowed]=useState(false)
+ const [busy,setBusy]=useState(false),[notice,setNotice]=useState(''),[error,setError]=useState('')
+ const requestVersion=useRef(0)
+ const endpoint='/api/tenants/'+tenantId+'/campaigns'
+ const load=useCallback(async()=>{if(!tenantId)return;const version=++requestVersion.current;const r=await fetch(endpoint);if(!r.ok)throw new Error('Impossible de charger les campagnes');const d=await r.json();if(version!==requestVersion.current)return;setCampaigns(d.campaigns);if(selected){const rr=await fetch(endpoint+'?campaign='+encodeURIComponent(selected));if(!rr.ok)throw new Error('Impossible de charger les destinataires');const data=await rr.json();if(version===requestVersion.current)setRecipients(data.recipients)}},[endpoint,tenantId,selected])
+ // load only updates state after network awaits; this effect synchronizes with the API.
+ useEffect(()=>{let active=true;load().catch(e=>{if(active)setError(e.message)});return()=>{active=false}},[load])
+ const current=campaigns.find(c=>c.id===selected)
+ async function action(input:Record<string,unknown>){if(demoEnabled){setError('Quittez le mode démo pour modifier les campagnes.');return}setBusy(true);setError('');setNotice('');try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});const d=await r.json();if(!r.ok)throw new Error(d.error||'Action impossible');if(d.id)setSelected(d.id);if(input.action==='simulate')setNotice(`${d.simulated} rappel(s) simulé(s). Aucun SMS envoyé. Seuls les rappels arrivés à échéance, du lundi au vendredi entre 9 h et 18 h, sont traités.`);else setNotice('Modification enregistrée.');await load();return true}catch(e){setError(e instanceof Error?e.message:'Action impossible');return false}finally{setBusy(false)}}
+ return <div className="space-y-6"><header className="flex flex-wrap items-end justify-between gap-4"><div><h1 className="font-heading text-3xl font-semibold tracking-tight">Campagnes</h1><p className="mt-2 text-sm text-muted-foreground">Préparez et testez vos rappels de rendez-vous.</p></div><div className="flex flex-wrap items-end gap-2"><span className="rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-xs font-medium text-primary">Simulation · aucun envoi</span></div></header>
+ <div className="flex flex-wrap gap-x-6 gap-y-2 border-b pb-4 text-sm text-muted-foreground"><span><strong className="text-foreground">{campaigns.length}</strong> campagnes</span><span><strong className="text-foreground">{campaigns.reduce((n,c)=>n+c.pending,0)}</strong> rappels à traiter</span><span><strong className="text-foreground">{campaigns.reduce((n,c)=>n+c.simulated,0)}</strong> simulés</span></div>
+ {error&&<p role="alert" className="rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm text-destructive">{error}</p>}{notice&&<p role="status" className="rounded-xl border bg-muted/40 p-4 text-sm">{notice}</p>}
+ <div className="grid items-start gap-6 lg:grid-cols-[240px_minmax(0,1fr)]"><aside className="space-y-4"><Button variant="outline" className="w-full" onClick={()=>{setSelected('');setRecipients([])}}><Plus className="size-4"/>Nouveau brouillon</Button>{campaigns.map(c=><button key={c.id} onClick={()=>setSelected(c.id)} aria-pressed={selected===c.id} className={`w-full rounded-xl border p-4 text-left transition-colors ${selected===c.id?'border-primary bg-primary/5':'bg-card hover:bg-muted/40'}`}><span className="block text-sm font-semibold">{c.name}</span><span className="mt-2 block text-xs text-muted-foreground">{labels[c.status]} · {c.total} destinataire(s)</span></button>)}<p className="px-2 text-xs leading-relaxed text-muted-foreground">Sélectionnez une campagne pour vérifier son message et ses destinataires.</p></aside>
+ {!current?<div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_250px]"><Card><CardHeader><CardTitle className="flex items-center gap-2 text-lg"><BellRing className="size-5"/>Préparer un rappel</CardTitle></CardHeader><CardContent><form className="space-y-5" onSubmit={e=>{e.preventDefault();void action({action:'create',name,template:message,timezone:'Europe/Paris'})}}><label className="block space-y-2 text-sm"><span>Nom de la campagne</span><Input required maxLength={100} value={name} onChange={e=>setName(e.target.value)}/></label><label className="block space-y-2 text-sm"><span>Message</span><Textarea required maxLength={600} rows={4} value={message} onChange={e=>setMessage(e.target.value)}/></label><p className="text-xs leading-relaxed text-muted-foreground">La variable {'{date}'} représente le rendez-vous. N’ajoutez pas de motif de soin ou d’informations médicales au message. Fuseau des horaires d’envoi : Europe/Paris.</p><Button disabled={busy||demoEnabled} type="submit"><Plus className="size-4"/>Créer le brouillon</Button></form></CardContent></Card><aside className="rounded-2xl border bg-muted/30 p-5"><p className="text-xs font-medium text-muted-foreground">APERÇU DU MESSAGE</p><div className="mt-5 rounded-2xl rounded-bl-sm border bg-card p-4 text-sm leading-relaxed whitespace-pre-wrap">{message || "Votre message apparaîtra ici."}</div><p className="mt-3 text-xs text-muted-foreground">{message.length}/600 caractères · aperçu du modèle, aucun envoi</p></aside></div>:<div className="space-y-5"><Card><CardHeader><CardTitle className="text-lg">{current.name}</CardTitle></CardHeader><CardContent className="space-y-4"><p className="rounded-xl bg-muted/50 p-4 text-sm leading-relaxed">{current.template}</p><div className="flex flex-wrap gap-2">{current.status!=='ready'?<Button disabled={busy||demoEnabled||!current.pending} onClick={()=>void action({action:'status',campaign:selected,status:'ready'})}><ShieldCheck className="size-4"/>Valider pour simulation</Button>:<Button variant="outline" disabled={busy||demoEnabled} onClick={()=>void action({action:'status',campaign:selected,status:'paused'})}><Pause className="size-4"/>Mettre en pause</Button>}{current.status==='paused'&&<Button variant="outline" disabled={busy||demoEnabled} onClick={()=>void action({action:'status',campaign:selected,status:'draft'})}>Modifier les destinataires</Button>}<Button variant="outline" disabled={busy||demoEnabled||current.status!=='ready'} onClick={()=>void action({action:'simulate'})}><Play className="size-4"/>Simuler les rappels dus</Button></div><p className="text-xs text-muted-foreground">La simulation traite toutes les campagnes prêtes du cabinet. Elle ne crée aucun rendez-vous et n’envoie aucun message.</p></CardContent></Card>
+ {current.status==='draft'&&<Card><CardHeader><CardTitle className="text-base">Ajouter un destinataire</CardTitle></CardHeader><CardContent><form className="grid gap-4 sm:grid-cols-2" onSubmit={async e=>{e.preventDefault();const ok=await action({action:'add',campaign:selected,phone,appointmentAt:new Date(appointment).toISOString(),dueAt:new Date(due).toISOString(),contactAllowed:allowed});if(ok){setPhone('');setAllowed(false)}}}><label className="space-y-2 text-sm sm:col-span-2"><span>Téléphone international</span><Input required type="tel" pattern="\+[1-9][0-9]{7,14}" placeholder="+33…" value={phone} onChange={e=>setPhone(e.target.value)}/></label><label className="space-y-2 text-sm"><span>Rendez-vous confirmé</span><Input required type="datetime-local" value={appointment} onChange={e=>setAppointment(e.target.value)}/></label><label className="space-y-2 text-sm"><span>Rappel prévu</span><Input required type="datetime-local" value={due} onChange={e=>setDue(e.target.value)}/></label><p className="text-xs text-muted-foreground sm:col-span-2">Saisissez les dates dans le fuseau horaire de cet ordinateur. Les rappels sont traités entre 9 h et 18 h, du lundi au vendredi, en heure de Paris.</p><label className="flex items-start gap-2 text-sm sm:col-span-2"><input type="checkbox" required checked={allowed} onChange={e=>setAllowed(e.target.checked)} className="mt-1"/><span>J’ai vérifié le rendez-vous et l’autorisation de contacter cette personne pour ce rappel.</span></label><Button disabled={busy||demoEnabled} type="submit" className="sm:col-span-2">Ajouter au brouillon</Button></form></CardContent></Card>}
+ <Card><CardHeader><CardTitle className="text-base">Destinataires</CardTitle></CardHeader><CardContent>{!recipients.length?<p className="text-sm text-muted-foreground">Aucun destinataire dans cette campagne.</p>:<div className="divide-y">{recipients.map(r=><div key={r.id} className="flex flex-wrap items-center justify-between gap-3 py-4"><div><p className="text-sm font-medium">{r.phone}</p><p className="mt-1 text-xs text-muted-foreground">Rendez-vous : {new Date(r.appointment_at).toLocaleString('fr-FR')}</p><p className="mt-1 text-xs text-muted-foreground">{labels[r.status]}</p></div>{r.status==='pending'&&<Button variant="ghost" size="sm" disabled={busy||demoEnabled} onClick={()=>void action({action:'suppress',campaign:selected,recipient:r.id})}><Ban className="size-4"/>Exclure</Button>}</div>)}</div>}</CardContent></Card></div>}
+ </div></div>
 }
+

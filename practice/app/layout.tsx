@@ -1,6 +1,7 @@
 import { DM_Sans, Geist_Mono, Outfit } from "next/font/google"
 
 import "./globals.css"
+import "./motion.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PracticeProvider } from "@/components/practice-context"
 import { AppShell } from "@/components/app-shell"

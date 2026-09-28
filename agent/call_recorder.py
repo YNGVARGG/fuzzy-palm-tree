@@ -9,6 +9,7 @@ Each call gets a folder: agent/calls/<tenant>/<timestamp>/
 import json
 import os
 import wave
+import uuid
 from datetime import datetime
 from pathlib import Path
 
@@ -18,10 +19,25 @@ KICKOFF_MARKERS = ("(Démarre la conversation.)", "(Start the conversation.)")
 
 
 def new_call_dir(tenant_id: str) -> Path:
-    ts = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    ts = datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_" + uuid.uuid4().hex[:8]
     d = CALLS_DIR / tenant_id / ts
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+def save_operational_capture(call_dir: Path, appointments: list[dict], messages: list[dict]) -> None:
+    """Save outcomes only; never retain or summarize the raw conversation."""
+    kind = "rdv" if appointments else "message" if messages else "inconnu"
+    if any(m.get("kind") == "escalation" for m in messages):
+        kind = "escalation"
+    save_summary(call_dir, (
+        f"{len(appointments)} rendez-vous confirmé(s), {len(messages)} demande(s) transmise(s). "
+        "Audio et transcription non conservés."
+    ))
+    save_meta(call_dir, {
+        "type": kind, "patient": "", "recording_enabled": False,
+        "capture_policy": "operational_only", "call_id": call_dir.name,
+    })
 
 
 def clean_messages(messages: list[dict]) -> list[dict]:

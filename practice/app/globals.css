@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
+    --background: #f3f6f8;
+    --foreground: #182b38;
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
@@ -16,7 +16,7 @@
     --secondary: oklch(0.967 0.001 286.375);
     --secondary-foreground: oklch(0.21 0.006 285.885);
     --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
+    --muted-foreground: #596b78;
     --accent: oklch(0.97 0 0);
     --accent-foreground: oklch(0.205 0 0);
     --destructive: oklch(0.577 0.245 27.325);
@@ -40,18 +40,18 @@
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
+    --background: #0d171f;
+    --foreground: #e9f1f5;
+    --card: #15232d;
     --card-foreground: oklch(0.985 0 0);
     --popover: oklch(0.205 0 0);
     --popover-foreground: oklch(0.985 0 0);
     --primary: oklch(0.72 0.1 190);
-    --primary-foreground: oklch(0.97 0.014 254.604);
+    --primary-foreground: #082c2c;
     --secondary: oklch(0.274 0.006 286.033);
     --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
+    --muted: #203440;
+    --muted-foreground: #a5b7c4;
     --accent: oklch(0.269 0 0);
     --accent-foreground: oklch(0.985 0 0);
     --destructive: oklch(0.704 0.191 22.216);
@@ -71,6 +71,23 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+}
+
+.workspace-sidebar { background: #102832; color: #f1f7fa; }
+.workspace-shell [hidden] { display: none !important; }
+.workspace-shell [data-slot="card"] { border-radius: 16px; gap: 16px; padding-block: 18px; box-shadow: 0 3px 14px #10283204; }
+.workspace-shell [data-slot="card-header"], .workspace-shell [data-slot="card-content"] { padding-inline: 24px; }
+.workspace-shell [data-slot="card-content"].p-0 { padding: 0; }
+.workspace-shell [data-slot="button"], .workspace-shell [data-slot="input"], .workspace-shell [data-slot="select-trigger"] { border-radius: 10px; }
+.workspace-shell h1 { font-size: clamp(1.6rem, 2.2vw, 2rem); letter-spacing: -0.035em; }
+.workspace-shell .eyebrow { color: var(--muted-foreground); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 6px; }
+.workspace-shell label { font-size: 14px; }
+.workspace-shell [data-slot="table-head"] { height: 44px; background: var(--muted); color: var(--muted-foreground); }
+.workspace-shell [data-slot="table-cell"] { padding-block: 12px; }
+.workspace-shell p { overflow-wrap: anywhere; }
+@media (max-width: 639px) {
+  .workspace-shell [data-slot="card-header"], .workspace-shell [data-slot="card-content"] { padding-inline: 14px; }
+  .workspace-shell [data-slot="card-content"].p-0 { padding: 0; }
 }
 
 @theme inline {
@@ -121,9 +138,39 @@
     @apply border-border outline-ring/50;
     }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    min-width: 320px;
     }
   html {
     @apply font-sans;
     }
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
 }
+
+@media (max-width: 767px) {
+  [data-slot="table-container"] {
+    margin-inline: -0.25rem;
+    width: calc(100% + 0.5rem);
+  }
+}
+
+/* Shared workspace rhythm, including detail pages and narrow screens. */
+.workspace-page > div { gap: 24px; }
+.workspace-shell [data-slot="card-title"] { letter-spacing: -.02em; }
+.workspace-shell [data-slot="card-description"] { line-height: 1.6; }
+.workspace-shell [data-slot="input"]:not([type="file"]), .workspace-shell [data-slot="select-trigger"] { min-height: 40px; }
+.workspace-shell [data-slot="table-cell"] { padding-block: 16px; }
+.workspace-sidebar { background-image: radial-gradient(ellipse at bottom left, #17444b, transparent 75%); }
+.workspace-sidebar nav a { min-height: 46px; border-radius: 12px; }
+.workspace-shell .compact-card [data-slot="card-content"] > .font-heading { font-size: 2rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 639px) { .workspace-page > div { gap: 18px; } }

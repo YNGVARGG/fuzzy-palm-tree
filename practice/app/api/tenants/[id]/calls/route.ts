@@ -1,20 +1,22 @@
+import { withAccess } from "@/lib/route-access"
 import { NextResponse } from "next/server"
-import { listCalls, NotFoundError, purgeCallDirs, readTenant } from "@/lib/server-data"
+import { getStore, NotFoundError, purgeCallDirs, readTenant } from "@/lib/server-data"
+import { apiError, parseQuery } from "@/lib/api-query"
 
-export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function GETImpl(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     readTenant(id)
-    const url = new URL(req.url)
-    const limit = Math.min(parseInt(url.searchParams.get("limit") ?? "200", 10) || 200, 500)
-    return NextResponse.json({ calls: listCalls(id, limit) })
+    const query=parseQuery(req)
+    const store=getStore()
+    await store.syncCalls(id)
+    return NextResponse.json(store.calls(id,query))
   } catch (e) {
-    if (e instanceof NotFoundError) return NextResponse.json({ error: e.message }, { status: 404 })
-    return NextResponse.json({ error: String(e) }, { status: 500 })
+    return apiError(e)
   }
 }
 
-export async function DELETE(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function DELETEImpl(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     readTenant(id)
@@ -33,3 +35,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
     return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
+
+export const GET = withAccess(GETImpl)
+
+export const DELETE = withAccess(DELETEImpl)

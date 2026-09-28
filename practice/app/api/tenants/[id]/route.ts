@@ -1,3 +1,4 @@
+import { withAccess } from "@/lib/route-access"
 import { NextResponse } from "next/server"
 import { NotFoundError, readTenant, removeTenantData, saveTenant } from "@/lib/server-data"
 
@@ -12,7 +13,7 @@ const TEXT_FIELDS = [
   "callback_promise",
 ] as const
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function GETImpl(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     return NextResponse.json(readTenant(id))
@@ -22,7 +23,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   }
 }
 
-export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function PUTImpl(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const tenant = readTenant(id)
@@ -37,6 +38,9 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (typeof body.insurance === "string" && body.insurance.trim() !== "") tenant.insurance = body.insurance.trim()
     if (Array.isArray(body.providers)) {
       tenant.providers = body.providers.map((s) => String(s).trim()).filter(Boolean)
+    }
+    if (Array.isArray(body.languages)) {
+      tenant.languages = body.languages.map((s) => String(s).trim()).filter(Boolean)
     }
     if (Array.isArray(body.languages)) {
       tenant.languages = body.languages.map((s) => String(s).trim()).filter(Boolean)
@@ -59,7 +63,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
-export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function DELETEImpl(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const tenant = readTenant(id)
@@ -71,3 +75,9 @@ export async function DELETE(_req: Request, { params }: { params: Promise<{ id: 
     return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
+
+export const GET = withAccess(GETImpl)
+
+export const PUT = withAccess(PUTImpl)
+
+export const DELETE = withAccess(DELETEImpl)

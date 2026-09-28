@@ -1,0 +1,13 @@
+{
+  "name": "Standard IA — Simuler les rappels dus",
+  "active": false,
+  "nodes": [
+    {"id":"manual","name":"Test manuel","type":"n8n-nodes-base.manualTrigger","typeVersion":1,"position":[0,0],"parameters":{}},
+    {"id":"schedule","name":"Toutes les 15 minutes","type":"n8n-nodes-base.scheduleTrigger","typeVersion":1.2,"position":[0,220],"parameters":{"rule":{"interval":[{"field":"minutes","minutesInterval":15}]}}},
+    {"id":"run","name":"Simuler dans le cabinet","type":"n8n-nodes-base.httpRequest","typeVersion":4.2,"position":[280,100],"parameters":{"method":"POST","url":"http://127.0.0.1:3001/api/workflows/campaigns","authentication":"genericCredentialType","genericAuthType":"httpHeaderAuth","options":{"timeout":15000}},"retryOnFail":true,"maxTries":3,"waitBetweenTries":5000},
+    {"id":"note","name":"Configuration requise","type":"n8n-nodes-base.stickyNote","typeVersion":1,"position":[-20,-280],"parameters":{"width":650,"height":220,"content":"## Simulation uniquement — aucun SMS ni appel\n1. Modifier l’URL pour joindre le dashboard depuis n8n.\n2. Choisir une credential Header Auth : Authorization = Bearer <CAMPAIGN_WORKFLOW_TOKEN>.\n3. Configurer CAMPAIGN_WORKFLOW_TENANT et le même token côté dashboard.\n4. Préparer les destinataires dans Campagnes, valider pour simulation, puis lancer Test manuel.\nLe serveur applique les horaires, l’autorisation de contact et la déduplication. Aucun numéro ni contenu de message ne transite dans n8n."}}
+  ],
+  "connections":{"Test manuel":{"main":[[{"node":"Simuler dans le cabinet","type":"main","index":0}]]},"Toutes les 15 minutes":{"main":[[{"node":"Simuler dans le cabinet","type":"main","index":0}]]}},
+  "settings":{"executionOrder":"v1","timezone":"Europe/Paris","saveDataSuccessExecution":"none","saveDataErrorExecution":"none","saveManualExecutions":false},
+  "pinData":{}
+}

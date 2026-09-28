@@ -1,12 +1,15 @@
+import { withAccess } from "@/lib/route-access"
 import { NextResponse } from "next/server"
 import fs from "node:fs"
 import path from "node:path"
-import { CALLS_DIR, readEvents, readTenant, TENANTS_DIR } from "@/lib/server-data"
+import { CALLS_DIR, getStore, readEvents, readTenant } from "@/lib/server-data"
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function GETImpl(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     const tenant = readTenant(id)
+    const store=getStore()
+    await store.syncEvents()
     const events = readEvents().filter((e) => e.tenant === id)
     const callsDir = path.join(CALLS_DIR, id)
     const calls: unknown[] = []
@@ -32,6 +35,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
       exported_at: new Date().toISOString(),
       tenant,
       activity: events,
+      tasks: store.db.prepare("SELECT * FROM tasks WHERE tenant=?").all(id),
+      task_history: store.db.prepare("SELECT * FROM task_history WHERE tenant=? ORDER BY id").all(id),
       calls,
     }
     return new NextResponse(JSON.stringify(bundle, null, 2), {
@@ -44,3 +49,5 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: String(e) }, { status: 500 })
   }
 }
+
+export const GET = withAccess(GETImpl)

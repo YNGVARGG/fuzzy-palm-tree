@@ -11,11 +11,12 @@ testing without telephony).
 
 import json
 import os
+import re
 from pathlib import Path
 
 TENANTS_DIR = Path(__file__).parent / "tenants"
 
-DEFAULT_TENANT_ID = os.getenv("TENANT_ID", "french-demo")
+DEFAULT_TENANT_ID = os.getenv("TENANT_ID", "")
 
 
 def list_tenants() -> list[str]:
@@ -27,6 +28,8 @@ def list_tenants() -> list[str]:
 
 def load_tenant(tenant_id: str) -> dict:
     """Load a tenant's profile + FAQ from tenants/<id>/tenant.json."""
+    if not re.fullmatch(r"[a-zA-Z0-9][a-zA-Z0-9_-]{0,99}", tenant_id):
+        raise RuntimeError("Invalid practice identifier")
     path = TENANTS_DIR / tenant_id / "tenant.json"
     if not path.is_file():
         raise RuntimeError(f"Unknown tenant {tenant_id!r} — no {path}")
@@ -44,11 +47,15 @@ def resolve_tenant_for_call(call_data) -> str:
     """
     phone_map = os.getenv("TENANTS_PHONE_MAP", "")
     if call_data:
-        to_number = getattr(call_data, "to_number", None) or getattr(call_data, "from_number", None)
+        to_number = getattr(call_data, "to_number", None)
         if to_number:
             for pair in phone_map.split(","):
                 if ":" in pair:
                     number, tenant_id = pair.split(":", 1)
                     if number.strip() == to_number.strip():
                         return tenant_id.strip()
-    return DEFAULT_TENANT_ID
+        raise RuntimeError("Dialed number is not assigned to a practice")
+    tenant_id = os.getenv("TENANT_ID", "").strip()
+    if not tenant_id:
+        raise RuntimeError("TENANT_ID must be explicitly configured for local calls")
+    return tenant_id

@@ -1,31 +1,9 @@
-import { BusinessCloud } from "@/components/landing/business-cloud"
-import { Cta } from "@/components/landing/cta"
-import { Demo } from "@/components/landing/demo"
-import { Faq } from "@/components/landing/faq"
-import { Features } from "@/components/landing/features"
-import { Footer } from "@/components/landing/footer"
-import { Hero } from "@/components/landing/hero"
-import { Nav } from "@/components/landing/nav"
-import { Pricing } from "@/components/landing/pricing"
-import { Problem } from "@/components/landing/problem"
-import { Testimonials } from "@/components/landing/testimonials"
-
-export default function LandingPage() {
-  return (
-    <>
-      <Nav />
-      <main id="main">
-        <Hero />
-        <BusinessCloud />
-        <Problem />
-        <Features />
-        <Demo />
-        <Testimonials />
-        <Pricing />
-        <Faq />
-        <Cta />
-      </main>
-      <Footer />
-    </>
-  )
+import { LandingExperience } from "@/components/landing/experience"
+export default function LandingPage(){
+  const appUrl=process.env.NEXT_PUBLIC_APP_URL || (process.env.NODE_ENV==="development"?"http://127.0.0.1:3001/login":null)
+  const raw=process.env.NEXT_PUBLIC_DEMO_URL || "https://cal.com/yonathan-henok-bjumzf/demo"
+  let demoUrl:string|null=null
+  if(raw){try{const url=new URL(raw);if(url.protocol==="https:" && url.hostname==="cal.com" && url.pathname.split("/").filter(Boolean).length>=2 && !url.username && !url.password)demoUrl=url.toString()}catch{}}
+  return <LandingExperience appUrl={appUrl} demoUrl={demoUrl}/>
 }
+

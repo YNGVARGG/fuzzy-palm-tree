@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
-// TODO (utilisateur) : remplacer par le vrai domaine du site.
-const SITE_URL = "https://standard-ia.fr"
+export const dynamic = "force-static"
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://standard-ia-dental.yonathanhenokg.chatgpt.site"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -13,3 +13,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ]
 }
+

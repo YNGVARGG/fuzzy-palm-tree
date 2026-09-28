@@ -14,6 +14,8 @@ for a real calendar/CRM later — the tool signatures stay the same.
 
 import json
 import os
+import asyncio
+import uuid
 from datetime import datetime
 from pathlib import Path
 
@@ -34,6 +36,8 @@ def _embed_texts(texts: list[str]) -> list[list[float]]:
     client = OpenAI(
         api_key=os.getenv("OPENAI_API_KEY"),
         base_url=os.getenv("EMBED_BASE_URL") or "https://api.mistral.ai/v1",
+        timeout=5.0,
+        max_retries=0,
     )
     resp = client.embeddings.create(
         model=os.getenv("EMBED_MODEL", "mistral-embed"), input=texts
@@ -102,10 +106,14 @@ class BusinessStore:
         self._next_message_id = 1
         self.appointments: list[dict] = []
         self.messages: list[dict] = []
+        self.call_id = uuid.uuid4().hex
+        self.booking_results: dict[tuple, dict] = {}
+        self.booking_lock = asyncio.Lock()
 
     def book(self, customer_name: str, phone: str, service: str, date: str, time: str) -> dict:
         booking = {
-            "reference": str(self._next_booking_id),
+            "reference": uuid.uuid4().hex,
+            "call_id": self.call_id,
             "tenant": self.tenant["id"],
             "customer_name": customer_name,
             "phone": phone,
@@ -114,35 +122,35 @@ class BusinessStore:
             "time": time,
         }
         self._next_booking_id += 1
-        self.appointments.append(booking)
-        _log_event("appointment_booked", booking)
         return booking
 
     def record_escalation(self, customer_name: str, phone: str, reason: str, details: str) -> dict:
         entry = {
             "message_id": self._next_message_id,
             "kind": "escalation",
+            "call_id": self.call_id,
             "tenant": self.tenant["id"],
             "customer_name": customer_name or "Appelant",
             "phone": phone or "—",
             "message": f"[{reason}] {details}",
         }
         self._next_message_id += 1
-        self.messages.append(entry)
         _log_event("escalation", entry)
+        self.messages.append(entry)
         return entry
 
     def record_message(self, customer_name: str, phone: str, message: str) -> dict:
         entry = {
             "message_id": self._next_message_id,
+            "call_id": self.call_id,
             "tenant": self.tenant["id"],
             "customer_name": customer_name,
             "phone": phone,
             "message": message,
         }
         self._next_message_id += 1
-        self.messages.append(entry)
         _log_event("message_taken", entry)
+        self.messages.append(entry)
         return entry
 
 
@@ -151,8 +159,9 @@ def _log_event(kind: str, payload: dict) -> None:
     try:
         with open(log_file, "a", encoding="utf-8") as f:
             f.write(json.dumps({"kind": kind, "at": datetime.now().isoformat(), **payload}) + "\n")
-    except OSError as e:
-        logger.warning(f"Could not write to {log_file}: {e}")
+    except OSError:
+        logger.error("Could not persist operational event")
+        raise
 
 
 def _faq_matches(store: BusinessStore, question: str) -> list[tuple[str, str]]:
@@ -176,7 +185,7 @@ async def answer_question(params: FunctionCallParams, question: str):
     """
     store: BusinessStore = params.app_resources
     matches = _faq_matches(store, question)
-    logger.info(f"answer_question({question!r}) -> {len(matches)} matches")
+    logger.info(f"FAQ lookup -> {len(matches)} matches")
     if matches:
         await params.result_callback(
             {"found": True, "answers": [{"topic": topic, "answer": answer} for topic, answer in matches]}
@@ -198,27 +207,27 @@ async def search_documents(params: FunctionCallParams, question: str):
     tenant_id = store.tenant["id"]
     index = _load_index(tenant_id)
     if not index or not index.get("chunks"):
-        logger.info(f"search_documents({question!r}) -> no index for {tenant_id}")
+        logger.info("Document lookup -> no index")
         await params.result_callback(
             {"found": False, "message": "Aucun document indexé pour cette entreprise."}
         )
         return
     try:
-        q_emb = _embed_texts([question])[0]
-    except Exception as e:
-        logger.warning(f"Embedding failed: {e}")
+        q_emb = (await asyncio.wait_for(asyncio.to_thread(_embed_texts, [question]), timeout=6.0))[0]
+    except Exception:
+        logger.warning("Document search unavailable")
         await params.result_callback({"found": False, "message": "Recherche documentaire indisponible."})
         return
     chunks = index["chunks"]
     scored = sorted(
-        ((_cosine(q_emb, c["embedding"]), c) for c in chunks), reverse=True
+        ((_cosine(q_emb, c["embedding"]), c) for c in chunks), key=lambda item: item[0], reverse=True
     )[:3]
     context = "\n\n".join(f"[{c['source']}] {c['chunk']}" for _, c in scored)
-    logger.info(f"search_documents({question!r}) -> {len(scored)} chunks")
+    logger.info(f"Document lookup -> {len(scored)} chunks")
     await params.result_callback({"found": True, "context": context[:4000]})
 
 
-async def book_appointment(
+async def _book_appointment(
     params: FunctionCallParams,
     customer_name: str,
     phone: str,
@@ -236,17 +245,47 @@ async def book_appointment(
         time: Appointment time in 24-hour HH:MM format.
     """
     store: BusinessStore = params.app_resources
-    booking = store.book(customer_name, phone, service, date, time)
-    logger.info(f"book_appointment(...) -> {booking}")
-    calendar_ok, calendar_note = create_event(booking)
-    await params.result_callback(
-        {
-            "success": True,
-            "reference": booking["reference"],
-            "details": f"{service} on {date} at {time}",
-            "calendar": calendar_note,
-        }
-    )
+    key = (customer_name.strip(), phone.strip(), service.strip(), date, time)
+    if key in store.booking_results:
+        await params.result_callback(store.booking_results[key])
+        return
+    booking = store.book(*key)
+    try:
+        calendar_ok, calendar_note = await asyncio.to_thread(create_event, booking, store.tenant)
+    except Exception:
+        calendar_ok, calendar_note = False, "calendar unavailable"
+    if calendar_ok:
+        try:
+            _log_event("appointment_booked", {**booking, "status": "confirmed"})
+        except OSError:
+            result = {"success": False, "status": "needs_reconciliation", "instruction": "Do not retry the calendar write. The calendar may contain the appointment but internal tracking failed. Ask the caller to contact the practice directly to verify; do not promise a callback."}
+            store.booking_results[key] = result
+            await params.result_callback(result)
+            return
+        store.appointments.append(booking)
+        result = {"success": True, "reference": booking["reference"], "details": f"{service} on {date} at {time}"}
+    else:
+        try:
+            entry = store.record_message(customer_name, phone, f"Rendez-vous NON confirmé : {service}, {date} {time}. Vérifier l'agenda et rappeler le patient.")
+            result = {"success": False, "status": "pending_review", "message_id": entry["message_id"], "reason": calendar_note, "instruction": "Do not confirm a booking. Explain that the practice must verify the request and contact the patient."}
+        except OSError:
+            result = {"success": False, "status": "not_saved", "instruction": "No follow-up could be saved. Ask the caller to contact the practice directly; do not promise a callback or confirmed booking."}
+    store.booking_results[key] = result
+    await params.result_callback(result)
+
+
+async def book_appointment(params: FunctionCallParams, customer_name: str, phone: str, service: str, date: str, time: str):
+    """Attempt a booking and return success only after calendar confirmation.
+
+    Args:
+        customer_name: Caller's full name.
+        phone: Caller's phone number.
+        service: Requested practice service.
+        date: Appointment date in YYYY-MM-DD format.
+        time: Appointment time in 24-hour HH:MM format.
+    """
+    async with params.app_resources.booking_lock:
+        await _book_appointment(params, customer_name, phone, service, date, time)
 
 
 async def take_message(
@@ -263,12 +302,15 @@ async def take_message(
         message: What the message is about, in the caller's words.
     """
     store: BusinessStore = params.app_resources
-    entry = store.record_message(customer_name, phone, message)
-    logger.info(f"take_message(...) -> {entry}")
-    promise = (
-        "Quelqu'un rappellera dans un délai d'un jour ouvrable."
-        if store.tenant.get("language") == "fr"
-        else "Someone will call back within one business day."
+    try:
+        entry = store.record_message(customer_name, phone, message)
+    except OSError:
+        await params.result_callback({"success": False, "status": "not_saved", "instruction": "No message was saved. Ask the caller to contact the practice directly. Do not promise a callback."})
+        return
+    logger.info("Callback request persisted")
+    promise = store.tenant.get("callback_promise") or (
+        "Votre demande est transmise à l'équipe. Aucun délai de rappel n'est confirmé."
+        if store.tenant.get("language") == "fr" else "Your request is saved for the team. No callback time is confirmed."
     )
     await params.result_callback({"success": True, "message_id": entry["message_id"], "promise": promise})
 
@@ -299,12 +341,16 @@ async def escalate_to_staff(
         phone: The caller's phone number, if known.
     """
     store: BusinessStore = params.app_resources
-    entry = store.record_escalation(customer_name, phone, reason, details)
-    logger.info(f"escalate_to_staff({reason=}) -> {entry}")
+    try:
+        entry = store.record_escalation(customer_name, phone, reason, details)
+    except OSError:
+        await params.result_callback({"success": False, "status": "not_saved", "instruction": "No escalation was saved. Do not promise a callback or transfer. Ask the caller to contact the practice directly and follow the practice emergency instructions if applicable."})
+        return
+    logger.info("Staff escalation persisted")
     promise = (
-        "Un membre de l'équipe clinique rappelle très rapidement — restez joignable."
+        "Une demande prioritaire est enregistrée pour l'équipe. Ce n'est pas un transfert en direct et aucun délai n'est confirmé."
         if store.tenant.get("language") == "fr"
-        else "A clinical team member will call back very soon — please stay reachable."
+        else "A priority request is saved for the team. This is not a live transfer and no response time is confirmed."
     )
     await params.result_callback(
         {"success": True, "message_id": entry["message_id"], "promise": promise}

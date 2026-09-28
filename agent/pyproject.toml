@@ -7,6 +7,7 @@ requires-python = ">=3.11"
 dependencies = [
     "pipecat-ai[openai,deepgram,cartesia,websocket,webrtc,silero,runner]>=1.8.1",   # no [daily]: daily-python has no Windows wheels
     "python-dotenv>=1.0",
+    "tzdata>=2025.2",
 ]
 
 [build-system]

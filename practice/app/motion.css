@@ -1,0 +1,16 @@
+/* Short, task-focused motion. Never delays input or conceals loading errors. */
+@keyframes workspace-enter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes login-enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.workspace-page{animation:workspace-enter 180ms cubic-bezier(.2,.8,.2,1) both}
+.login-surface>section>div{animation:login-enter 480ms cubic-bezier(.2,.8,.2,1) both}
+.login-surface>section:last-child>div{animation-delay:80ms}
+.workspace-sidebar nav a{transition:background-color 160ms ease,color 160ms ease,box-shadow 160ms ease}
+.workspace-shell [data-slot=button]{transition:background-color 150ms ease,border-color 150ms ease,box-shadow 150ms ease,color 150ms ease,transform 150ms ease}
+.workspace-shell [data-slot=button]:active:not(:disabled){transform:translateY(1px)}
+.workspace-shell input,.workspace-shell textarea{transition:border-color 150ms ease,box-shadow 150ms ease}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.workspace-page,.login-surface>section>div{animation:none;opacity:1;transform:none}}
+
+@media (prefers-reduced-motion: no-preference) {
+  .workspace-shell [data-slot="card"] { transition: border-color 180ms ease, box-shadow 180ms ease; }
+  .workspace-shell [data-slot="card"]:focus-within { border-color: color-mix(in srgb, var(--primary) 35%, var(--border)); }
+}

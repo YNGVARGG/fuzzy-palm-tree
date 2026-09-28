@@ -1,200 +1,144 @@
 "use client"
 
-import { useState } from "react"
 
-import { CalendarCheck, Download, MessageSquareText, Search } from "lucide-react"
+import { useDeferredValue, useState } from "react"
 import Link from "next/link"
+import { CalendarCheck, ChevronDown, ChevronLeft, ChevronRight, Download, Inbox, Phone, RefreshCw, Search } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { usePractice } from "@/components/practice-context"
-import { usePracticeData } from "@/components/use-practice-data"
-import type { ActivityEvent } from "@/lib/types"
+import { formatDate, formatDateTime, usePaginatedBookings, type OperationalEvent } from "@/components/operational-data"
 
-const fmtDT = (iso: string) => new Date(iso).toLocaleString("fr-FR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
-const fmtEUR = (n: number) => new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 }).format(n)
+type View = "all" | "upcoming" | "past"
 
-const todayISO = () => new Date().toISOString().slice(0, 10)
+function localDateKey(date = new Date()) {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const day = String(date.getDate()).padStart(2, "0")
+  return `${year}-${month}-${day}`
+}
+
+function Pager({ page, totalPages, total, onPage }: { page: number; totalPages: number; total: number; onPage: (page: number) => void }) {
+  if (total === 0) return null
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-3 border-t px-4 py-3 text-xs text-muted-foreground sm:px-5">
+      <span>{total.toLocaleString("fr-FR")} rendez-vous</span>
+      <div className="flex items-center gap-2">
+        <span>Page {page} sur {totalPages}</span>
+        <Button variant="outline" size="icon" className="size-8" disabled={page <= 1} onClick={() => onPage(page - 1)} aria-label="Page précédente"><ChevronLeft className="size-4" /></Button>
+        <Button variant="outline" size="icon" className="size-8" disabled={page >= totalPages} onClick={() => onPage(page + 1)} aria-label="Page suivante"><ChevronRight className="size-4" /></Button>
+      </div>
+    </div>
+  )
+}
+
+function BookingRow({ booking, open, onToggle }: { booking: OperationalEvent; open: boolean; onToggle: () => void }) {
+  return (
+    <div className="border-b last:border-b-0">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={onToggle}
+        className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-muted/50 focus-visible:bg-muted/50 sm:px-5"
+      >
+        <div className="w-24 shrink-0 sm:w-32">
+          <p className="font-heading text-lg font-semibold tabular-nums">{String(booking.time ?? "À confirmer")}</p>
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-medium">{booking.customer_name || "Patient inconnu"}</p>
+          <p className="truncate text-xs text-muted-foreground">{booking.service || "Service non renseigné"}</p>
+        </div>
+        <span className="hidden text-right text-xs text-muted-foreground sm:block">{booking.reference ? `Réf. ${booking.reference}` : ""}</span>
+        <ChevronDown className={`size-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open ? (
+        <div className="grid gap-3 bg-muted/30 px-4 pb-4 pt-1 text-sm sm:grid-cols-3 sm:px-5">
+          <div><p className="text-xs text-muted-foreground">Patient</p><p className="font-medium">{booking.customer_name || "—"}</p></div>
+          <div><p className="text-xs text-muted-foreground">Téléphone</p>{booking.phone ? <a href={`tel:${String(booking.phone).replace(/\s/g, "")}`} className="inline-flex items-center gap-1 font-medium text-primary hover:underline"><Phone className="size-3.5" /> {booking.phone}</a> : <p>—</p>}</div>
+          <div><p className="text-xs text-muted-foreground">Réservé le</p><p>{formatDateTime(booking.at)}</p></div>
+          <div><p className="text-xs text-muted-foreground">Soin ou service</p><p>{booking.service || "—"}</p></div>
+          <div><p className="text-xs text-muted-foreground">Référence</p><p className="font-mono text-xs">{booking.reference || "—"}</p></div>
+          <div><p className="text-xs text-muted-foreground">Source</p><p>{booking.kind === "appointment_booked" ? "Réservé par l’agent" : "Activité du cabinet"}</p></div>
+        </div>
+      ) : null}
+    </div>
+  )
+}
 
 export default function BookingsPage() {
-  const { tenant, tenantId } = usePractice()
-  const data = usePracticeData()
+  const { tenantId, demoEnabled } = usePractice()
+  const [view, setView] = useState<View>("upcoming")
   const [q, setQ] = useState("")
-  const bookings = (data.bookings as ActivityEvent[]).filter((b) => !q || (String(b.customer_name) + " " + String(b.service)).toLowerCase().includes(q.toLowerCase()))
-  const messages = data.messages as ActivityEvent[]
-  const avgValue = tenant?.avg_appointment_value ?? 0
-  const totalValue = bookings.length * avgValue
-  const today = todayISO()
-  const upcoming = bookings.filter((b) => String(b.date) >= today)
-  const past = bookings.filter((b) => String(b.date) < today)
+  const [page, setPage] = useState(1)
+  const [openId, setOpenId] = useState<string | null>(null)
+  const deferredQ = useDeferredValue(q)
+  const [today] = useState(() => localDateKey())
+  const [yesterday] = useState(() => { const date = new Date(); date.setDate(date.getDate() - 1); return localDateKey(date) })
+  const from = view === "upcoming" ? today : ""
+  const to = view === "past" ? yesterday : ""
+  const filterKey = JSON.stringify([deferredQ, view])
+  const [previousFilterKey, setPreviousFilterKey] = useState(filterKey)
+  if (filterKey !== previousFilterKey) { setPreviousFilterKey(filterKey); setPage(1); setOpenId(null); }
+  const result = usePaginatedBookings({ q: deferredQ, from, to, page })
+
+
+  const dateGroups = Map.groupBy(result.items, booking => String(booking.date ?? "Date à confirmer"))
 
   const exportCsv = () => {
+    if(!demoEnabled){window.location.href=`/api/tenants/${encodeURIComponent(tenantId)}/bookings-export?${new URLSearchParams({q:deferredQ,from,to})}`;return}
     const head = ["reference", "date", "heure", "soin", "patient", "telephone", "pris_le"]
-    const rows = bookings.map((b) => [b.reference, b.date, b.time, b.service, b.customer_name, b.phone, b.at].map((v) => '"' + String(v ?? "").replace(/"/g, '""') + '"').join(","))
+    const rows = result.items.map((booking) => [booking.reference, booking.date, booking.time, booking.service, booking.customer_name, booking.phone, booking.at].map((value) => `"${String(value ?? "").replace(/"/g, '""')}"`).join(","))
     const csv = "\uFEFF" + [head.join(","), ...rows].join("\n")
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }))
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "rendez-vous-" + today + ".csv"
-    a.click()
+    const anchor = document.createElement("a")
+    anchor.href = url
+    anchor.download = `rendez-vous-${today}.csv`
+    anchor.click()
     URL.revokeObjectURL(url)
   }
 
-  const Rows = ({ list }: { list: ActivityEvent[] }) => (
-    <>
-      {list.map((b) => (
-        <TableRow key={String(b.reference) + String(b.at)}>
-          <TableCell>{String(b.date)}</TableCell>
-          <TableCell>{String(b.time)}</TableCell>
-          <TableCell>{String(b.service)}</TableCell>
-          <TableCell className="font-medium">{String(b.customer_name)}</TableCell>
-          <TableCell>
-            <Link href={"tel:" + String(b.phone).replace(/s/g, "")} className="font-mono text-xs text-primary hover:underline">{String(b.phone)}</Link>
-          </TableCell>
-          <TableCell className="text-right font-mono text-xs">{String(b.reference)}</TableCell>
-          <TableCell className="text-right text-xs text-muted-foreground">{fmtDT(String(b.at))}</TableCell>
-        </TableRow>
-      ))}
-    </>
-  )
-
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h1 className="font-heading text-2xl font-semibold tracking-tight">Rendez-vous</h1>
-          <p className="text-sm text-muted-foreground">
-            {data.loading ? "…" : bookings.length + " rendez-vous réservés par l'agent"}
-            {avgValue > 0 && bookings.length > 0 ? " — " + fmtEUR(totalValue) + " de production estimée" : ""}
-            {data.demo ? " · données de démonstration" : ""}
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
-            <Input placeholder="Rechercher un patient…" className="w-56 pl-8" value={q} onChange={(e) => setQ(e.target.value)} />
-          </div>
-          {bookings.length > 0 ? (
-            <Button variant="outline" size="sm" onClick={exportCsv}><Download className="size-3.5" /> Exporter CSV</Button>
-          ) : null}
-        </div>
-      </div>
+    <div className="flex flex-col gap-5">
+      <header className="flex flex-wrap items-end justify-between gap-4"><div><h1 className="font-heading text-3xl font-semibold tracking-tight">Rendez-vous</h1><p className="mt-2 text-sm text-muted-foreground">Les demandes enregistrées, classées par date.</p></div><div className="flex flex-wrap items-end gap-2"><Button variant="outline" size="sm" onClick={result.refresh} disabled={result.loading} className="gap-1.5"><RefreshCw className="size-3.5" /> Actualiser</Button>
+          {result.items.length > 0 ? <Button variant="outline" size="sm" onClick={exportCsv} className="gap-1.5"><Download className="size-3.5" /> {demoEnabled?"Exporter la page démo":"Exporter les résultats"}</Button> : null}
+        </div></header>
 
-      {data.loading ? (
-        <Skeleton className="h-64 w-full" />
-      ) : bookings.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center gap-2 px-6 py-14 text-center text-sm text-muted-foreground">
-            <CalendarCheck className="size-6 opacity-40" />
-            <p className="font-medium text-foreground">Aucun rendez-vous pour le moment</p>
-            <p>Activez le mode démo depuis la vue d&apos;ensemble pour explorer le produit.</p>
-          </CardContent>
-        </Card>
+      {demoEnabled ? <p className="rounded-2xl border border-primary/20 bg-primary/5 p-4 text-sm text-muted-foreground">Données de démonstration · les rendez-vous affichés sont des exemples.</p> : null}
+      <Card size="sm">
+        <CardContent className="flex flex-wrap items-end gap-3 py-3">
+          <label className="flex min-w-56 flex-1 flex-col gap-1.5 text-xs font-medium">
+            Rechercher
+            <span className="relative"><Search className="pointer-events-none absolute left-2.5 top-2.5 size-4 text-muted-foreground" /><Input aria-label="Rechercher un rendez-vous" placeholder="Patient, soin, téléphone…" className="pl-8" value={q} onChange={(event) => setQ(event.target.value)} /></span>
+          </label>
+          <div className="flex rounded-full bg-muted p-1" role="group" aria-label="Période des rendez-vous">
+            {(["upcoming", "past", "all"] as View[]).map((item) => {
+              const label = item === "upcoming" ? "À venir" : item === "past" ? "Passés" : "Tous"
+              return <button key={item} type="button" aria-pressed={view === item} onClick={() => setView(item)} className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${view === item ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>{label}</button>
+            })}
+          </div>
+          {q ? <Button variant="ghost" size="sm" onClick={() => setQ("")}>Réinitialiser</Button> : null}
+        </CardContent>
+      </Card>
+
+      {result.error ? <Card className="border-destructive/30 bg-destructive/5"><CardContent className="flex items-center justify-between gap-3 py-4 text-sm"><p>{result.error}</p><Button size="sm" variant="outline" onClick={result.refresh}>Réessayer</Button></CardContent></Card> : null}
+
+      {result.loading ? <Skeleton className="h-72 w-full" /> : result.error ? null : result.items.length === 0 ? (
+        <Card><CardContent className="flex flex-col items-center gap-2 px-6 py-14 text-center text-sm text-muted-foreground"><CalendarCheck className="size-6 opacity-40" /><p className="font-medium text-foreground">Aucun rendez-vous trouvé</p><p>{q ? "Modifiez votre recherche pour élargir les résultats." : view === "upcoming" ? "Les prochains rendez-vous réservés par l’agent apparaîtront ici." : "Aucun rendez-vous dans cette période."}</p></CardContent></Card>
       ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">Agenda réservé par l&apos;agent</CardTitle>
-            <CardDescription>Valeur moyenne d&apos;un rendez-vous : {avgValue > 0 ? fmtEUR(avgValue) : "à définir dans Réglages"} · cliquez sur un numéro pour appeler</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Tabs defaultValue="upcoming">
-              <TabsList>
-                <TabsTrigger value="upcoming">À venir ({upcoming.length})</TabsTrigger>
-                <TabsTrigger value="past">Passés ({past.length})</TabsTrigger>
-              </TabsList>
-              <TabsContent value="upcoming">
-                {upcoming.length === 0 ? (
-                  <p className="px-2 py-8 text-center text-sm text-muted-foreground">Aucun rendez-vous à venir.</p>
-                ) : (
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Heure</TableHead>
-                        <TableHead>Soin / service</TableHead>
-                        <TableHead>Patient</TableHead>
-                        <TableHead>Téléphone</TableHead>
-                        <TableHead className="text-right">Réf.</TableHead>
-                        <TableHead className="text-right">Pris le</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody><Rows list={upcoming} /></TableBody>
-                  </Table>
-                )}
-              </TabsContent>
-              <TabsContent value="past">
-                {past.length === 0 ? (
-                  <p className="px-2 py-8 text-center text-sm text-muted-foreground">Aucun rendez-vous passé.</p>
-                ) : (
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Date</TableHead>
-                        <TableHead>Heure</TableHead>
-                        <TableHead>Soin / service</TableHead>
-                        <TableHead>Patient</TableHead>
-                        <TableHead>Téléphone</TableHead>
-                        <TableHead className="text-right">Réf.</TableHead>
-                        <TableHead className="text-right">Pris le</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody><Rows list={past} /></TableBody>
-                  </Table>
-                )}
-              </TabsContent>
-            </Tabs>
+        <Card size="sm">
+          <CardHeader className="pb-3"><CardTitle className="text-base">Demandes de rendez-vous</CardTitle><CardDescription>Ouvrez un rendez-vous pour consulter les coordonnées et sa référence.</CardDescription></CardHeader>
+          <CardContent className="p-0">
+            {Array.from(dateGroups, ([date, bookings]) => <section key={date} aria-label={formatDate(date)}><div className="flex items-center justify-between border-y bg-muted/50 px-5 py-3"><h3 className="text-sm font-semibold">{formatDate(date)}</h3><span className="text-xs text-muted-foreground">{bookings.length} sur cette page</span></div>{bookings.map(booking=><BookingRow key={booking.id} booking={booking} open={openId===booking.id} onToggle={()=>setOpenId(openId===booking.id?null:booking.id)}/>)}</section>)}
           </CardContent>
+          <Pager page={result.page} totalPages={result.totalPages} total={result.total} onPage={setPage} />
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Messages, escalades et demandes de rappel</CardTitle>
-          <CardDescription>Tâches pour votre équipe quand l&apos;agent ne peut pas conclure</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {data.loading ? (
-            <Skeleton className="h-24 w-full" />
-          ) : messages.length === 0 ? (
-            <div className="flex flex-col items-center gap-2 rounded-xl border border-dashed px-6 py-8 text-center text-sm text-muted-foreground">
-              <MessageSquareText className="size-5 opacity-40" />
-              <p className="font-medium text-foreground">Aucune tâche</p>
-              <p>Les demandes de rappel et escalades (avis médical, urgence, cas complexe) seront listées ici.</p>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Patient</TableHead>
-                  <TableHead>Téléphone</TableHead>
-                  <TableHead>Détail</TableHead>
-                  <TableHead className="text-right">Reçu le</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {messages.map((m) => (
-                  <TableRow key={String(m.message_id) + String(m.at)}>
-                    <TableCell>
-                      {m.kind === "escalation" ? <Badge className="border-red-500/40 bg-red-500/10 text-red-600 dark:text-red-400">Escalade</Badge> : <Badge variant="secondary">Message</Badge>}
-                    </TableCell>
-                    <TableCell className="font-medium">{String(m.customer_name)}</TableCell>
-                    <TableCell>
-                      <Link href={"tel:" + String(m.phone).replace(/s/g, "")} className="font-mono text-xs text-primary hover:underline">{String(m.phone)}</Link>
-                    </TableCell>
-                    <TableCell className="max-w-md truncate">{String(m.message)}</TableCell>
-                    <TableCell className="text-right text-xs text-muted-foreground">{fmtDT(String(m.at))}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
+      <Card size="sm" className="border-dashed">
+        <CardContent className="flex flex-wrap items-center justify-between gap-3 py-4"><div className="flex items-center gap-2"><Inbox className="size-4 text-primary" /><div><p className="text-sm font-medium">Une demande attend une réponse ?</p><p className="text-xs text-muted-foreground">Retrouvez les rappels, messages et escalades dans la boîte de réception.</p></div></div><Link href="/inbox"><Button variant="outline" size="sm">Ouvrir la boîte de réception</Button></Link></CardContent>
       </Card>
     </div>
   )

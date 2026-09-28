@@ -1,23 +1,23 @@
+import { withAccess } from "@/lib/route-access"
 import { NextResponse } from "next/server"
-import { NotFoundError, readEvents, readTenant } from "@/lib/server-data"
-import type { Activity } from "@/lib/types"
+import { getStore, readTenant } from "@/lib/server-data"
+import { apiError, parseQuery } from "@/lib/api-query"
 
-export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function GETImpl(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params
     readTenant(id)
-    const events = readEvents().filter((e) => e.tenant === id)
-    const bookings = events.filter((e) => e.kind === "appointment_booked")
-    const messages = events.filter((e) => e.kind === "message_taken")
-    const byDate = (a: { at: string }, b: { at: string }) => b.at.localeCompare(a.at)
-    const activity: Activity = {
-      total_events: events.length,
-      bookings: [...bookings].sort(byDate),
-      messages: [...messages].sort(byDate),
-    }
-    return NextResponse.json(activity)
+    const store=getStore()
+    const query=parseQuery(req)
+    await store.syncEvents()
+    const kind=new URL(req.url).searchParams.get("kind")
+    if(kind) return NextResponse.json(store.activity(id,kind,query))
+    const bookings=store.activity(id,"bookings",query)
+    const messages=store.activity(id,"messages",query)
+    return NextResponse.json({...bookings,messages:messages.messages,total_events:bookings.total+messages.total})
   } catch (e) {
-    if (e instanceof NotFoundError) return NextResponse.json({ error: e.message }, { status: 404 })
-    return NextResponse.json({ error: String(e) }, { status: 500 })
+    return apiError(e)
   }
 }
+
+export const GET = withAccess(GETImpl)
